@@ -3,55 +3,83 @@ using System.Collections;
 
 public class ClickToMove : MonoBehaviour
 {
-    public CharacterController controller;
-    
-    public float speed = 10f;
-    
-    private Vector3 clickPosition;
+	public float speed = 7f;                         // Speed at which the character moves
+
+	private float characterSpeed;
+	private Animator anim;                     // Animator to Anim converter
+	private Transform myTransform;              // this transform
+	private Vector3 destinationPosition;        // The destination Point
+	private float destinationDistance;          // The distance between myTransform and destinationPosition
     
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        clickPosition = transform.position;
+		characterSpeed = 0f;
+		anim = GetComponent<Animator>();
+		myTransform = transform;                            // sets myTransform to this GameObject.transform
+		destinationPosition = myTransform.position;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+	void FixedUpdate()
+    {		
+		destinationDistance = Vector3.Distance(destinationPosition, myTransform.position);
 
-        if (Input.GetMouseButton(1))
-        {
-            // Locate a palyer click:
-            LocateClickPosition();
-        }
+		CalculateCharacterSpeed (destinationDistance);
 
-        // Move player to the clickPosition:
-        MoveToPosition();
+		anim.SetFloat ("Speed", characterSpeed);
+		
+		// Moves the Player if the Left Mouse Button was clicked
+		if (Input.GetMouseButtonDown(1))
+		{			
+			GetDistinationPosition();
+		}
+		
+		// Moves the player if the mouse button is hold down
+		else if (Input.GetMouseButton(1))
+		{			
+			GetDistinationPosition();
+		}
+
+		MoveCharacter (destinationDistance);
     }
 
-    void LocateClickPosition()
-    {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+	void MoveCharacter(float destinationDistance)
+	{
+		if(destinationDistance > .5f)
+		{
+			myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, speed * Time.deltaTime * characterSpeed);
+		}
+	}
 
-        if (Physics.Raycast(ray, out hit, 1000))
-        {
-            clickPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-            Debug.Log(clickPosition);
-        }
-    }
+	void CalculateCharacterSpeed(float destinationDistance)
+	{
+		if (destinationDistance < .5f)
+		{
+			characterSpeed = 0f;
+		}
+		else if (destinationDistance < 2f)
+		{
+			characterSpeed = .5f;
+		}
+		else if (destinationDistance > 5f)
+		{
+			characterSpeed = 1f;
+		}
+	}
 
-    void MoveToPosition()
-    {
-        if (Vector3.Distance(transform.position, clickPosition) > 1)
-        {
-            Quaternion newRotation = Quaternion.LookRotation(clickPosition - transform.position);
-
-            newRotation.x = 0f;
-            newRotation.z = 0f;
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 10);
-            controller.SimpleMove(transform.forward * speed);
-        }
-    }
+	void GetDistinationPosition()
+	{
+		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		float hitdist = 0.0f;
+		
+		if (playerPlane.Raycast(ray, out hitdist))
+		{
+			Vector3 targetPoint = ray.GetPoint(hitdist);
+			destinationPosition = ray.GetPoint(hitdist);
+			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+			myTransform.rotation = targetRotation;
+		}
+	}
 }
