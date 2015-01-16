@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ClickToMove : MonoBehaviour
+using Global;
+
+public class Hero : MonoBehaviour
 {
+	public string Name = "Scout";
+
 	public float speed = 7f;                         // Speed at which the character moves
 
 	private float characterSpeed;
@@ -10,40 +14,28 @@ public class ClickToMove : MonoBehaviour
 	private Transform myTransform;              // this transform
 	private Vector3 destinationPosition;        // The destination Point
 	private float destinationDistance;          // The distance between myTransform and destinationPosition
-    
-    // Use this for initialization
-    void Awake()
-    {
+
+	private SpriteRenderer selectCircle;
+	
+	void Awake()
+	{
 		characterSpeed = 0f;
 		anim = GetComponent<Animator>();
 		myTransform = transform;                            // sets myTransform to this GameObject.transform
 		destinationPosition = myTransform.position;
-    }
+		selectCircle = GetComponentInChildren<SpriteRenderer> ();
+	}
 
-    // Update is called once per frame
 	void FixedUpdate()
-    {		
+	{		
 		destinationDistance = Vector3.Distance(destinationPosition, myTransform.position);
-
+		
 		CalculateCharacterSpeed (destinationDistance);
-
+		
 		anim.SetFloat ("Speed", characterSpeed);
 		
-		// Moves the Player if the Left Mouse Button was clicked
-		if (Input.GetMouseButtonDown(1))
-		{			
-			GetDistinationPosition();
-		}
-		
-		// Moves the player if the mouse button is hold down
-		else if (Input.GetMouseButton(1))
-		{			
-			GetDistinationPosition();
-			MoveCharacter (destinationDistance);
-		}
-
-//		MoveCharacter (destinationDistance);
-    }
+		MoveCharacter (destinationDistance);
+	}
 
 	void MoveCharacter(float destinationDistance)
 	{
@@ -52,7 +44,7 @@ public class ClickToMove : MonoBehaviour
 			myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, speed * Time.deltaTime * characterSpeed);
 		}
 	}
-
+	
 	void CalculateCharacterSpeed(float destinationDistance)
 	{
 		if (destinationDistance < .5f)
@@ -68,11 +60,10 @@ public class ClickToMove : MonoBehaviour
 			characterSpeed = 1f;
 		}
 	}
-
-	void GetDistinationPosition()
+	
+	public void SetDistinationPosition(Ray ray)
 	{
 		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		float hitdist = 0.0f;
 		
 		if (playerPlane.Raycast(ray, out hitdist))
@@ -82,5 +73,15 @@ public class ClickToMove : MonoBehaviour
 			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
 			myTransform.rotation = targetRotation;
 		}
+	}
+
+	public void SelectHero()
+	{
+		selectCircle.enabled = true;
+	}
+
+	public void UnselectHero()
+	{
+		selectCircle.enabled = false;
 	}
 }
