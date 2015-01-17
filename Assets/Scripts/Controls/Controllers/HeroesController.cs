@@ -8,8 +8,6 @@ using Global;
 
 public class HeroesController : MonoBehaviour 
 {
-// 	Hero[] heroes = new Hero[3];
-
 	List<Hero> heroes = new List<Hero>();
 
 	private int selectebleMask;
