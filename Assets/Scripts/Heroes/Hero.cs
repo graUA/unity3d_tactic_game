@@ -3,14 +3,16 @@ using System.Collections;
 
 using Global;
 
+[AddComponentMenu("Main/Heroes/Hero")]
+
 public class Hero : MonoBehaviour
 {
 	public string Name = "Scout";
 
-	public float speed = 7f;                         // Speed at which the character moves
+	public float speed = 7f;                    // Speed at which the character moves
 
 	private float characterSpeed;
-	private Animator anim;                     // Animator to Anim converter
+	private Animator anim;                      // Animator to Anim converter
 	private Transform myTransform;              // this transform
 	private Vector3 destinationPosition;        // The destination Point
 	private float destinationDistance;          // The distance between myTransform and destinationPosition
@@ -21,9 +23,9 @@ public class Hero : MonoBehaviour
 	{
 		characterSpeed = 0f;
 		anim = GetComponent<Animator>();
-		myTransform = transform;                            // sets myTransform to this GameObject.transform
+		myTransform = transform;                                  // sets myTransform to this GameObject.transform
 		destinationPosition = myTransform.position;
-		selectCircle = GetComponentInChildren<SpriteRenderer> ();
+		selectCircle = GetComponentInChildren<SpriteRenderer> (); // hero select circle sprite
 	}
 
 	void FixedUpdate()
@@ -77,11 +79,11 @@ public class Hero : MonoBehaviour
 
 	public void SelectHero()
 	{
-		selectCircle.enabled = true;
+		selectCircle.enabled = true;  // show select circle
 	}
 
 	public void UnselectHero()
 	{
-		selectCircle.enabled = false;
+		selectCircle.enabled = false;  // hide select circle
 	}
 }

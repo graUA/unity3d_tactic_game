@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 using Global;
 
+[AddComponentMenu("Main/Heroes/Heroes Controller")]
+
 public class HeroesController : MonoBehaviour 
 {
- 	Hero[] heroes = new Hero[3];
+// 	Hero[] heroes = new Hero[3];
+
+	List<Hero> heroes = new List<Hero>();
 
 	private int selectebleMask;
 	private float range = 100f;
@@ -15,15 +20,14 @@ public class HeroesController : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		selectebleMask = LayerMask.GetMask ("Heroes");
+		selectebleMask = LayerMask.GetMask (Layers.heroes);
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
 		if (Input.GetMouseButton(0))
-		{		
-			Debug.Log("Click");
+		{
 			SelectHero();
 		}
 
@@ -37,17 +41,17 @@ public class HeroesController : MonoBehaviour
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if (Physics.Raycast (ray, out shootHit, range, selectebleMask)) {	
-			heroes [0] = shootHit.collider.GetComponent<Hero> ();
-			heroes [0].SelectHero ();
+		if (Physics.Raycast (ray, out shootHit, range, selectebleMask)) {
+			if (!Input.GetKey(KeyCode.LeftShift))
+			{
+				ClearHeroesList();
+			}
+
+			AddNewHero(shootHit.collider.GetComponent<Hero>());
 		} 
 		else 
 		{
-			if (heroes[0])
-			{
-				heroes [0].UnselectHero ();
-				heroes = new Hero[3];
-			}
+			ClearHeroesList();
 		}
 	}
 
@@ -56,10 +60,32 @@ public class HeroesController : MonoBehaviour
 	{
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-		if (heroes[0])
+		foreach (Hero hero in heroes)
 		{
-			heroes[0].SetDistinationPosition(ray);
+			hero.SetDistinationPosition(ray);
 		}
 	}
+
+	#region Heroes Array monipulation methods:
+
+	void AddNewHero(Hero hero)
+	{
+		if (!heroes.Contains(hero))
+		{
+			hero.SelectHero();
+			heroes.Add(hero);
+		}
+	}
+
+	void ClearHeroesList()
+	{
+		foreach (Hero hero in heroes)
+		{
+			hero.UnselectHero();
+		}
+		heroes = new List<Hero>();
+	}
+
+	#endregion
 
 }
