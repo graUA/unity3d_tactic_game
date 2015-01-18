@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: 731ad0f3e241ad44f8cc5ff1a7d4a032
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: BODY
+    100002: CAMERA
+    100004: LEFT_1_CLAW
+    100006: LEFT_2_CLAW
+    100008: LEFT_FORE_ARM
+    100010: LEFT_HAND
+    100012: LEFT_LEG
+    100014: LEFT_UPPER_ARM
+    100016: PELVIS
+    100018: RIGHT_1_CLAW
+    100020: RIGHT_2_CLAW
+    100022: RIGHT_FORE_ARM
+    100024: RIGHT_HAND
+    100026: RIGHT_LEG
+    100028: RIGHT_UPPER_ARM
+    100030: //RootNode
+    100032: WHEELS
+    400000: BODY
+    400002: CAMERA
+    400004: LEFT_1_CLAW
+    400006: LEFT_2_CLAW
+    400008: LEFT_FORE_ARM
+    400010: LEFT_HAND
+    400012: LEFT_LEG
+    400014: LEFT_UPPER_ARM
+    400016: PELVIS
+    400018: RIGHT_1_CLAW
+    400020: RIGHT_2_CLAW
+    400022: RIGHT_FORE_ARM
+    400024: RIGHT_HAND
+    400026: RIGHT_LEG
+    400028: RIGHT_UPPER_ARM
+    400030: //RootNode
+    400032: WHEELS
+    2300000: BODY
+    2300002: CAMERA
+    2300004: LEFT_1_CLAW
+    2300006: LEFT_2_CLAW
+    2300008: LEFT_FORE_ARM
+    2300010: LEFT_HAND
+    2300012: LEFT_LEG
+    2300014: LEFT_UPPER_ARM
+    2300016: PELVIS
+    2300018: RIGHT_1_CLAW
+    2300020: RIGHT_2_CLAW
+    2300022: RIGHT_FORE_ARM
+    2300024: RIGHT_HAND
+    2300026: RIGHT_LEG
+    2300028: RIGHT_UPPER_ARM
+    2300030: WHEELS
+    3300000: BODY
+    3300002: CAMERA
+    3300004: LEFT_1_CLAW
+    3300006: LEFT_2_CLAW
+    3300008: LEFT_FORE_ARM
+    3300010: LEFT_HAND
+    3300012: LEFT_LEG
+    3300014: LEFT_UPPER_ARM
+    3300016: PELVIS
+    3300018: RIGHT_1_CLAW
+    3300020: RIGHT_2_CLAW
+    3300022: RIGHT_FORE_ARM
+    3300024: RIGHT_HAND
+    3300026: RIGHT_LEG
+    3300028: RIGHT_UPPER_ARM
+    3300030: WHEELS
+    4300000: WHEELS
+    4300002: LEFT_FORE_ARM
+    4300004: RIGHT_FORE_ARM
+    4300006: RIGHT_UPPER_ARM
+    4300008: LEFT_UPPER_ARM
+    4300010: BODY
+    4300012: CAMERA
+    4300014: PELVIS
+    4300016: RIGHT_2_CLAW
+    4300018: RIGHT_1_CLAW
+    4300020: LEFT_2_CLAW
+    4300022: LEFT_1_CLAW
+    4300024: RIGHT_LEG
+    4300026: LEFT_LEG
+    4300028: RIGHT_HAND
+    4300030: LEFT_HAND
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 1
+  userData: 

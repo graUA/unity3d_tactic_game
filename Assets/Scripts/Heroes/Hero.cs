@@ -3,8 +3,6 @@ using System.Collections;
 
 using Global;
 
-[AddComponentMenu("Main/Heroes/Hero")]
-
 public class Hero : MonoBehaviour
 {
 	public string Name = "Scout";
@@ -79,11 +77,17 @@ public class Hero : MonoBehaviour
 
 	public void SelectHero()
 	{
-		selectCircle.enabled = true;  // show select circle
+		if (selectCircle != null)
+		{
+			selectCircle.enabled = true;  // show select circle
+		}
 	}
 
 	public void UnselectHero()
 	{
-		selectCircle.enabled = false;  // hide select circle
+		if (selectCircle != null)
+		{
+			selectCircle.enabled = false;  // hide select circle
+		}
 	}
 }

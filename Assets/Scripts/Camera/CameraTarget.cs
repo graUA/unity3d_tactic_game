@@ -73,7 +73,6 @@ public class CameraTarget : MonoBehaviour
 	private void updateCamera()
 	{
 		if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow)) {
-			print ("camera update by key");
 						moveCameraByMouse (Input.mousePosition.x, Input.mousePosition.y);
 				}
 		moveCameraByKeys ();
