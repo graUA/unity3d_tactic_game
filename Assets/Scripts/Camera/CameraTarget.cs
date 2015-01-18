@@ -131,7 +131,7 @@ public class CameraTarget : MonoBehaviour
     // Rotate camera by shift + right mouse button
     private void rotateCamera()
     {
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButton(1))
+        if (Input.GetMouseButton(2))
         {
             if (Input.mousePosition.x != mouseXPositionForRotation)
             {
