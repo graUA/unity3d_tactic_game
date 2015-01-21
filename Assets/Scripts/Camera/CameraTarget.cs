@@ -25,11 +25,10 @@ public class CameraTarget : MonoBehaviour
     // Mouse x position for camera rotation
     private float mouseXPositionForRotation;
 
-    // Use this for initialization
-    void Start()
-    {
-        // initialize something
-    }
+    // Camera Selection Frame
+    public Texture2D selection_frame = null;
+    public static Rect selection = new Rect(0, 0, 0, 0);
+    private Vector3 startClick = -Vector3.one;
 
     // Update is called once per frame
     void Update()
@@ -37,12 +36,58 @@ public class CameraTarget : MonoBehaviour
 		UpdateCamera ();
         ZoomCamera();
         RotateCamera();
+        CheckCameraAndDrawSelectionFrame();
     }
 
     // Update is called once per frame after Update() was called
     void LateUpdate()
     {
         mouseXPositionForRotation = Input.mousePosition.x;
+    }
+
+    void OnGUI()
+    {
+        if (startClick != -Vector3.one)
+        {
+            GUI.color = new Color(1, 1, 1, 0.2f);
+            GUI.DrawTexture(selection, selection_frame);
+        }
+    }
+
+    private void CheckCameraAndDrawSelectionFrame()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            startClick = Input.mousePosition;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (selection.width < 0)
+            {
+                selection.x += selection.width;
+                selection.width = -selection.width;
+            }
+            if (selection.height < 0)
+            {
+                selection.y += selection.height;
+                selection.height = -selection.height;
+            }
+            startClick = -Vector3.one;
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            selection = new Rect(
+                startClick.x,
+                InvertMouseY(startClick.y),
+                Input.mousePosition.x - startClick.x,
+                InvertMouseY(Input.mousePosition.y) - InvertMouseY(startClick.y));
+        }
+    }
+
+    public static float InvertMouseY(float y)
+    {
+        return Screen.height - y;
     }
 
     // Move camera by mouse
