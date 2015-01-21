@@ -34,9 +34,9 @@ public class CameraTarget : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		updateCamera ();
-        zoomCamera();
-        rotateCamera();
+		UpdateCamera ();
+        ZoomCamera();
+        RotateCamera();
     }
 
     // Update is called once per frame after Update() was called
@@ -46,7 +46,7 @@ public class CameraTarget : MonoBehaviour
     }
 
     // Move camera by mouse
-    private void moveCameraByMouse(float mouseX, float mouseY)
+    private void MoveCameraByMouse(float mouseX, float mouseY)
     {
         var previousPosition = transform.position;
 
@@ -67,19 +67,24 @@ public class CameraTarget : MonoBehaviour
             transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
         }
 
-        preventInfiniteMovingOfCamera(previousPosition, transform.position);
+        PreventInfiniteMovingOfCamera(previousPosition, transform.position);
     }
 
-	private void updateCamera()
+	private void UpdateCamera()
 	{
-		if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow)) {
-						moveCameraByMouse (Input.mousePosition.x, Input.mousePosition.y);
-				}
-		moveCameraByKeys ();
+		if (!Input.GetKey(KeyCode.RightArrow) &&
+            !Input.GetKey(KeyCode.LeftArrow) &&
+            !Input.GetKey(KeyCode.DownArrow) &&
+            !Input.GetKey(KeyCode.UpArrow)) {
+			
+            MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
+		}
+
+		MoveCameraByKeys ();
 	}
 
 	// Move camera by keys
-	private void moveCameraByKeys()
+	private void MoveCameraByKeys()
 	{
 		var previousPosition = transform.position;
 		if(Input.GetKey(KeyCode.RightArrow))
@@ -99,11 +104,11 @@ public class CameraTarget : MonoBehaviour
 			transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
 		}
 
-		preventInfiniteMovingOfCamera(previousPosition, transform.position);
+		PreventInfiniteMovingOfCamera(previousPosition, transform.position);
 	}
 
     // Stop camera when it reaches scene limits and return it to the previous position 
-    private void preventInfiniteMovingOfCamera(Vector3 previousPosition, Vector3 currentPosition)
+    private void PreventInfiniteMovingOfCamera(Vector3 previousPosition, Vector3 currentPosition)
     {
         if (currentPosition.z < minZ || currentPosition.z > maxZ)
         {
@@ -116,7 +121,7 @@ public class CameraTarget : MonoBehaviour
     }
 
     // Zoom camera by scrolling the wheel
-    private void zoomCamera()
+    private void ZoomCamera()
     {
         if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
         {
@@ -129,7 +134,7 @@ public class CameraTarget : MonoBehaviour
     }
 
     // Rotate camera by shift + right mouse button
-    private void rotateCamera()
+    private void RotateCamera()
     {
         if (Input.GetMouseButton(2))
         {
