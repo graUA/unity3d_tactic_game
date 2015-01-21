@@ -47,10 +47,11 @@ public class HeroesController : MonoBehaviour
             // convert unit posiotn to sceen coords
             // Vector3 worldToScreen = Camera.main.WorldToViewportPoint(hero.transform.position);
             Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
-            // camPos.y = CameraTarget.InvertMouseY(camPos.y);
-            
+            camPos.y = CameraTarget.InvertMouseY(camPos.y);
+
             if (CameraTarget.selection.Contains(camPos))
-            {   
+            {
+                Debug.Log("========>");
                 AddNewHero(hero);
             }
         }
