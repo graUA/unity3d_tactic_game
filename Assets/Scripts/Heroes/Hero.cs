@@ -16,6 +16,8 @@ public class Hero : MonoBehaviour
 	private float destinationDistance;          // The distance between myTransform and destinationPosition
 
 	private SpriteRenderer selectCircle;
+
+	private NavMeshAgent navAgent;
 	
 	void Awake()
 	{
@@ -24,6 +26,7 @@ public class Hero : MonoBehaviour
 		myTransform = transform;                                  // sets myTransform to this GameObject.transform
 		destinationPosition = myTransform.position;
 		selectCircle = GetComponentInChildren<SpriteRenderer> (); // hero select circle sprite
+		navAgent = GetComponent<NavMeshAgent>();
 	}
 
 	void FixedUpdate()
@@ -41,21 +44,22 @@ public class Hero : MonoBehaviour
 	{
 		if(destinationDistance > .5f)
 		{
-			myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, speed * Time.deltaTime * characterSpeed);
+			navAgent.SetDestination(destinationPosition);
+//			myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, speed * Time.deltaTime * characterSpeed);
+		}
+		else
+		{
+			navAgent.ResetPath();
 		}
 	}
 	
 	void CalculateCharacterSpeed(float destinationDistance)
 	{
-		if (destinationDistance < .5f)
+		if (destinationDistance < 1.1f)
 		{
 			characterSpeed = 0f;
 		}
-		else if (destinationDistance < 2f)
-		{
-			characterSpeed = .5f;
-		}
-		else if (destinationDistance > 5f)
+		else
 		{
 			characterSpeed = 1f;
 		}
