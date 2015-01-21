@@ -13,6 +13,7 @@ public class HeroesController : MonoBehaviour
 	private float range = 100f;
 	RaycastHit shootHit;
 	Ray ray;
+	UIController uiCtr;
 
 	// Use this for initialization
 	void Start () 
@@ -23,6 +24,7 @@ public class HeroesController : MonoBehaviour
         }
 
 		selectebleMask = LayerMask.GetMask (Layers.heroes);
+		uiCtr = GetComponent<UIController>();
 	}
 	
 	// Update is called once per frame
@@ -79,6 +81,11 @@ public class HeroesController : MonoBehaviour
 	void GetDistinationPosition()
 	{
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+		if (selectedHeroes.Count > 0)
+		{
+			uiCtr.HighlightDestinationPoint(ray);
+		}
 
 		foreach (Hero hero in selectedHeroes)
 		{
