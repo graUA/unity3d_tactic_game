@@ -47,13 +47,11 @@ public class HeroesController : MonoBehaviour
         foreach (Hero hero in heroes)
         {
             // convert unit posiotn to sceen coords
-            // Vector3 worldToScreen = Camera.main.WorldToViewportPoint(hero.transform.position);
             Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
             camPos.y = CameraTarget.InvertMouseY(camPos.y);
 
-            if (CameraTarget.selection.Contains(camPos))
+            if (CameraTarget.selection.Contains(camPos, true))
             {
-                Debug.Log("========>");
                 AddNewHero(hero);
             }
         }
