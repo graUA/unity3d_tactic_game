@@ -1,0 +1,120 @@
+fileFormatVersion: 2
+guid: afb5b0c8f2b8d481d8688af95cf48a31
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: Armature
+    100002: def_c_ammobox
+    100004: def_c_armA
+    100006: def_c_armB
+    100008: def_c_armC
+    100010: def_c_base
+    100012: def_c_baseswivel
+    100014: def_c_beltA
+    100016: def_c_beltB
+    100018: def_c_counter
+    100020: def_c_handlefront
+    100022: def_c_handlerear
+    100024: def_c_hose
+    100026: def_c_hoseLow
+    100028: def_c_hyFrontA
+    100030: def_c_hyFrontB
+    100032: def_c_hyMidA
+    100034: def_c_hyMidB
+    100036: def_c_hyRearA
+    100038: def_c_hyRearB
+    100040: def_c_spin
+    100042: def_c_up
+    100044: def_c_wirecam
+    100046: jx_c_muzzle
+    100048: //RootNode
+    100050: sentrygun
+    100052: sentryguntripod
+    100054: stand
+    400000: Armature
+    400002: def_c_ammobox
+    400004: def_c_armA
+    400006: def_c_armB
+    400008: def_c_armC
+    400010: def_c_base
+    400012: def_c_baseswivel
+    400014: def_c_beltA
+    400016: def_c_beltB
+    400018: def_c_counter
+    400020: def_c_handlefront
+    400022: def_c_handlerear
+    400024: def_c_hose
+    400026: def_c_hoseLow
+    400028: def_c_hyFrontA
+    400030: def_c_hyFrontB
+    400032: def_c_hyMidA
+    400034: def_c_hyMidB
+    400036: def_c_hyRearA
+    400038: def_c_hyRearB
+    400040: def_c_spin
+    400042: def_c_up
+    400044: def_c_wirecam
+    400046: jx_c_muzzle
+    400048: //RootNode
+    400050: sentrygun
+    400052: sentryguntripod
+    400054: stand
+    4300000: sentrygun
+    4300002: sentryguntripod
+    9500000: //RootNode
+    13700000: sentrygun
+    13700002: sentryguntripod
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 

@@ -33,7 +33,7 @@ public class Hero : MonoBehaviour
 	{		
 		destinationDistance = Vector3.Distance(destinationPosition, myTransform.position);
 		
-		CalculateCharacterSpeed (destinationDistance);
+		characterSpeed = navAgent.velocity.magnitude;
 		
 		anim.SetFloat ("Speed", characterSpeed);
 		
@@ -50,18 +50,6 @@ public class Hero : MonoBehaviour
 		else
 		{
 			navAgent.ResetPath();
-		}
-	}
-	
-	void CalculateCharacterSpeed(float destinationDistance)
-	{
-		if (destinationDistance < 1.1f)
-		{
-			characterSpeed = 0f;
-		}
-		else
-		{
-			characterSpeed = 1f;
 		}
 	}
 	
