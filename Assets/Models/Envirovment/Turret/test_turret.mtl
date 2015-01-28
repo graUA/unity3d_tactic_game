@@ -1,0 +1,18 @@
+newmtl MCOR_Sentry_Turet:sentrygun
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mcor_sentry_gun_d.tga
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 96.08
+newmtl MCOR_Sentry_Turet:sentryguntripod
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd mcor_sentry_gun_tripod_d.tga
+Ni 1.00
+Ks 0.00 0.00 0.00
+Ns 96.08

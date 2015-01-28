@@ -5,6 +5,8 @@ using Global;
 
 public class Enemy : MonoBehaviour {
 
+	public enum EnemyType {Turret = 0, Guard, Hunter};
+	public EnemyType Enemys;
 	public float fieldOfViewAngle;
 	public float characterSpeed;
 
@@ -23,11 +25,16 @@ public class Enemy : MonoBehaviour {
 
 	void Update()
 	{
-		characterSpeed = navAgent.velocity.magnitude;		
-		anim.SetFloat ("Speed", characterSpeed * 0.3f);
+		if (Enemys != EnemyType.Turret)
+		{
+			characterSpeed = navAgent.velocity.magnitude;		
+			anim.SetFloat ("Speed", characterSpeed * 0.3f);
 
-		destinationDistance = Vector3.Distance(destinationPosition, transform.position);
-		MoveCharacter (destinationDistance);
+			destinationDistance = Vector3.Distance(destinationPosition, transform.position);
+			if (navAgent) {
+				MoveCharacter (destinationDistance);
+			}
+		}
 	}
 
 	void OnTriggerStay (Collider other)
