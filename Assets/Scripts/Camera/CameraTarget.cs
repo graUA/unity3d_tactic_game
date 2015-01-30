@@ -23,19 +23,31 @@ public class CameraTarget : MonoBehaviour
 
     // Mouse x position for camera rotation
     private float mouseXPositionForRotation;
-
+	
     // Camera Selection Frame
-    public Texture2D selection_frame = null;
-    public static Rect selection = new Rect(0, 0, 0, 0);
-    private Vector3 startClick = -Vector3.one;
+	public static Rect selection = new Rect(0, 0, 0, 0);
+    
+	// Selection frame texture
+	public Texture2D selection_frame = null;
+    
+	// Start point of selection frame
+	private Vector3 startClick = -Vector3.one;
+
+	// Follow camera
+	private static GameObject followTarget = null;
+
+	private static bool hasFollowed = false;
 
     // Update is called once per frame
     void Update()
-    {
-		UpdateCamera ();
+	{
+		UpdateCamera();
         ZoomCamera();
         RotateCamera();
         CheckCameraAndDrawSelectionFrame();
+
+		if (hasFollowed)
+			FollowCamera();
     }
 
     // Update is called once per frame after Update() was called
@@ -53,6 +65,35 @@ public class CameraTarget : MonoBehaviour
         }
     }
 
+	public static void SetFollowCamera(GameObject target)
+	{
+		hasFollowed = true;
+		followTarget = target;
+	}
+
+	private static void RemoveFollowCamera()
+	{
+		hasFollowed = false;
+		followTarget = null;
+	}
+
+	private void FollowCamera()
+	{
+		if (followTarget != null)
+		{
+			Vector3 targetPos = followTarget.transform.position;
+		
+			transform.position = new Vector3(
+				(targetPos.x + transform.position.x) / 2,
+				transform.position.y,
+				targetPos.z
+			);
+			Debug.Log(targetPos.z + "----" + transform.position.y);
+			// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
+			// transform.position = followTarget.transform.position + ();
+		}
+	}
+
 	// Draw common selection frame
     private void CheckCameraAndDrawSelectionFrame()
     {
@@ -67,11 +108,13 @@ public class CameraTarget : MonoBehaviour
                 selection.x += selection.width;
                 selection.width = -selection.width;
             }
-            if (selection.height < 0)
+            
+			if (selection.height < 0)
             {
                 selection.y += selection.height;
                 selection.height = -selection.height;
             }
+
             startClick = -Vector3.one;
         }
 
@@ -128,7 +171,7 @@ public class CameraTarget : MonoBehaviour
             MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
 		}
 
-		MoveCameraByKeys ();
+		MoveCameraByKeys();
 	}
 
 	// Move camera by keys
@@ -181,7 +224,7 @@ public class CameraTarget : MonoBehaviour
         }
     }
 
-    // Rotate camera by shift + right mouse button
+    // Rotate camera by wheel
     private void RotateCamera()
     {
         if (Input.GetMouseButton(2))

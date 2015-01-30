@@ -40,6 +40,18 @@ public class HeroesController : MonoBehaviour
 		{
 			GetDistinationPosition();
 		}
+
+		if (Input.GetKey(KeyCode.Space))
+		{
+			SetUpFollowMode();
+		}
+
+	}
+
+	void SetUpFollowMode()
+	{
+		if (selectedHeroes.Count > 0)
+			CameraTarget.SetFollowCamera(selectedHeroes[0].gameObject);
 	}
 
 	// Check heroes and select those are under selection frame
