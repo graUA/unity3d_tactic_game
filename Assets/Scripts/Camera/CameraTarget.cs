@@ -3,7 +3,6 @@ using System.Collections;
 
 public class CameraTarget : MonoBehaviour
 {
-
     // Border on screen edges where we can move the camera
     private static int ACTIVE_SCREEN_BORDER_WIDTH = 5;
 
@@ -54,6 +53,7 @@ public class CameraTarget : MonoBehaviour
         }
     }
 
+	// Draw common selection frame
     private void CheckCameraAndDrawSelectionFrame()
     {
         if (Input.GetMouseButtonDown(0))
@@ -85,6 +85,8 @@ public class CameraTarget : MonoBehaviour
         }
     }
 
+	// We use this method to remove the difference
+	// between cordinate sytems of camera and selection frame
     public static float InvertMouseY(float y)
     {
         return Screen.height - y;
@@ -115,6 +117,7 @@ public class CameraTarget : MonoBehaviour
         PreventInfiniteMovingOfCamera(previousPosition, transform.position);
     }
 
+	// Update camera position when we try to move it by keys or mouse 
 	private void UpdateCamera()
 	{
 		if (!Input.GetKey(KeyCode.RightArrow) &&

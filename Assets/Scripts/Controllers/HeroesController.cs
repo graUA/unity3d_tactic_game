@@ -42,11 +42,11 @@ public class HeroesController : MonoBehaviour
 		}
 	}
 
+	// Check heroes and select those are under selection frame
     void SelectHeroBySelectionFrame()
     {
         foreach (Hero hero in heroes)
         {
-            // convert unit posiotn to sceen coords
             Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
             camPos.y = CameraTarget.InvertMouseY(camPos.y);
 
