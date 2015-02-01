@@ -59,6 +59,10 @@ ModelImporter:
     400050: sentrygun
     400052: sentryguntripod
     400054: stand
+    2300000: sentrygun
+    2300002: sentryguntripod
+    3300000: sentrygun
+    3300002: sentryguntripod
     4300000: sentrygun
     4300002: sentryguntripod
     9500000: //RootNode

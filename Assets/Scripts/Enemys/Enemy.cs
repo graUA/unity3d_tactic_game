@@ -3,41 +3,39 @@ using System.Collections;
 
 using Global;
 
-public class Enemy : MonoBehaviour {
-
-	public enum EnemyType {Turret = 0, Guard, Hunter};
-	public EnemyType Enemys;
+public class Enemy : MonoBehaviour
+{
+	
 	public float fieldOfViewAngle;
-	public float characterSpeed;
+	public float speed;
+	public enum EnemyType {Turret = 0, Guard, Hunter};
+	public EnemyType enemyType;
 
 	private NavMeshAgent navAgent;
 	private SphereCollider col;
 	private Animator anim;
-	private float destinationDistance;
-	private Vector3 destinationPosition;
+	private GameObject GM;				// Game Manager Object
+	private EnemyController EC;         // EnemyController Class
 
-	void Awake()
+	public void Awake()
 	{
 		navAgent = GetComponent<NavMeshAgent>();
 		col = GetComponent<SphereCollider>();
 		anim = GetComponent<Animator>();
+		GM = GameObject.FindGameObjectWithTag(Tags.gameManager);
+		EC = GM.GetComponent<EnemyController>();
 	}
 
 	void Update()
 	{
-		if (Enemys != EnemyType.Turret)
-		{
-			characterSpeed = navAgent.velocity.magnitude;		
-			anim.SetFloat ("Speed", characterSpeed * 0.3f);
+		if (navAgent)
+			speed = navAgent.velocity.magnitude;
 
-			destinationDistance = Vector3.Distance(destinationPosition, transform.position);
-			if (navAgent) {
-				MoveCharacter (destinationDistance);
-			}
-		}
+		if (anim)
+			RuntimeAnimation();
 	}
 
-	void OnTriggerStay (Collider other)
+	void OnTriggerStay(Collider other)
 	{
 		if (other.gameObject.tag == Tags.heroes)
 		{
@@ -51,14 +49,14 @@ public class Enemy : MonoBehaviour {
 				{
 					if (hit.collider.gameObject.tag == Tags.heroes)
 					{
-						SetDistinationPosition(other.transform.position);
+						EC.ISeeHero(this, other.gameObject);
 					}
 				}
 			}
 		}
 	}
 
-	void OnTriggerExit (Collider other)
+	void OnTriggerExit(Collider other)
 	{
 		if (other.gameObject.tag == Tags.heroes)
 		{
@@ -66,23 +64,22 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
-	void MoveCharacter(float destinationDistance)
+	public void MoveCharacter(Vector3 destinationPosition)
 	{
-		if(destinationDistance > .5f)
+		float destinationDistance = Vector3.Distance(destinationPosition, transform.position);
+
+		if (destinationDistance > .5f)
 		{
 			navAgent.SetDestination(destinationPosition);
 		}
 		else
 		{
-			navAgent.ResetPath();
+			navAgent.Stop();
 		}
 	}
 
-	public void SetDistinationPosition(Vector3 position)
+	void RuntimeAnimation()
 	{
-		Quaternion targetRotation = Quaternion.LookRotation(position - transform.position);
-		transform.rotation = targetRotation;
 
-		destinationPosition = position;
 	}
 }		

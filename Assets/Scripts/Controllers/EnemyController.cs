@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyController : MonoBehaviour {
+using Global;
+
+public class EnemyController : MonoBehaviour
+{
 
 	// Use this for initialization
 	void Start () {
@@ -11,5 +14,11 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void ISeeHero(Enemy enemy, GameObject hero)
+	{
+		if (enemy.enemyType != Enemy.EnemyType.Turret)
+			enemy.MoveCharacter(hero.transform.position);
 	}
 }
