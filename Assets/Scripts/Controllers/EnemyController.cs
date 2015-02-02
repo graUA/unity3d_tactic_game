@@ -18,7 +18,7 @@ public class EnemyController : MonoBehaviour
 
 	public void ISeeHero(Enemy enemy, GameObject hero)
 	{
-		if (enemy.enemyType != Enemy.EnemyType.Turret)
-			enemy.MoveCharacter(hero.transform.position);
+		enemy.MoveCharacter(hero.transform.position);
+		enemy.RotateCharacter(hero.transform.position);
 	}
 }

@@ -5,8 +5,13 @@ using Global;
 
 public class GuardEnemy : Enemy
 {
-	void Start()
+	GuardEnemy()
 	{
-		enemyType = EnemyType.Guard;
+		enemyBehavior = new EnemyBehavior(new GuardBehavior());
+	}
+
+	public override void RuntimeAnimation()
+	{
+		anim.SetFloat ("Speed", speed * 0.3f);
 	}
 }

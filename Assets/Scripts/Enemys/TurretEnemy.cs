@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using Global;
+
 public class TurretEnemy : Enemy {
 
-	void Start()
+	TurretEnemy()
 	{
-		enemyType = EnemyType.Turret;
+		enemyBehavior = new EnemyBehavior(new TurretBehavior());
 	}
 }

@@ -8,14 +8,13 @@ public class Enemy : MonoBehaviour
 	
 	public float fieldOfViewAngle;
 	public float speed;
-	public enum EnemyType {Turret = 0, Guard, Hunter};
-	public EnemyType enemyType;
 
-	private NavMeshAgent navAgent;
-	private SphereCollider col;
-	private Animator anim;
-	private GameObject GM;				// Game Manager Object
-	private EnemyController EC;         // EnemyController Class
+	protected NavMeshAgent navAgent;
+	protected EnemyBehavior enemyBehavior;
+	protected SphereCollider col;
+	protected Animator anim;
+	protected GameObject GM;				// Game Manager Object
+	protected EnemyController EC;         // EnemyController Class
 
 	public void Awake()
 	{
@@ -64,22 +63,32 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	// Main Actions Methods:
+
 	public void MoveCharacter(Vector3 destinationPosition)
 	{
 		float destinationDistance = Vector3.Distance(destinationPosition, transform.position);
 
-		if (destinationDistance > .5f)
+		if (destinationDistance > .5f && enemyBehavior.CanIMove())
 		{
 			navAgent.SetDestination(destinationPosition);
 		}
-		else
+	}
+
+	public void RotateCharacter(Vector3 position)
+	{
+		if (enemyBehavior.CanIRotate())
 		{
-			navAgent.Stop();
+			Quaternion targetRotation = Quaternion.LookRotation(position - transform.position);
+			transform.rotation = targetRotation;
 		}
 	}
 
-	void RuntimeAnimation()
+	public void AttackCharacter(GameObject hero)
 	{
-
+		Debug.Log("FIRE!!!");
 	}
+
+	// Virtual Methods:
+	public virtual void RuntimeAnimation(){}
 }		
