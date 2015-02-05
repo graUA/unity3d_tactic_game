@@ -20,5 +20,6 @@ public class EnemyController : MonoBehaviour
 	{
 		enemy.MoveCharacter(hero.transform.position);
 		enemy.RotateCharacter(hero.transform.position);
+		enemy.AttackCharacter(hero);
 	}
 }

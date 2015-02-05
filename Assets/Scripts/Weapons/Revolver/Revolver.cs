@@ -5,5 +5,8 @@ using Global;
 
 public class Revolver : Weapon 
 {
+	Revolver()
+	{
 
+	}
 }

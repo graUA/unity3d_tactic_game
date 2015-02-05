@@ -22,6 +22,7 @@ namespace Global
 		public const string gameController = "GameController";
 		public const string gameManager = "GameManager";
 		public const string heroes = "Heroes";
+		public const string weapon = "Weapon";
 	}
 
 	public static class Layers

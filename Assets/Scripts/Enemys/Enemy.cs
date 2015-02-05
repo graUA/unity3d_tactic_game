@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 	protected Animator anim;
 	protected GameObject GM;				// Game Manager Object
 	protected EnemyController EC;         // EnemyController Class
+	protected Weapon GUN;
 
 	public void Awake()
 	{
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
 		anim = GetComponent<Animator>();
 		GM = GameObject.FindGameObjectWithTag(Tags.gameManager);
 		EC = GM.GetComponent<EnemyController>();
+		GUN = GameObject.FindGameObjectWithTag(Tags.weapon).GetComponent<Weapon>();
 	}
 
 	void Update()
@@ -87,6 +89,7 @@ public class Enemy : MonoBehaviour
 	public void AttackCharacter(GameObject hero)
 	{
 		Debug.Log("FIRE!!!");
+		GUN.Shoot();
 	}
 
 	// Virtual Methods:
