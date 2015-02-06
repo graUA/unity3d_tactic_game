@@ -41,11 +41,12 @@ public class HeroesController : MonoBehaviour
 			GetDistinationPosition();
 		}
 
-		if (Input.GetKey(KeyCode.Space))
+		if (Input.GetKey(KeyCode.LeftShift)
+		    && Input.GetKey(KeyCode.LeftControl)
+		    && Input.GetKey(KeyCode.F))
 		{
 			SetUpFollowMode();
 		}
-
 	}
 
 	void SetUpFollowMode()

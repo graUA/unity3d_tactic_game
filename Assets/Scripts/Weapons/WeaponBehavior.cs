@@ -3,12 +3,6 @@ using System.Collections;
 
 using Global;
 
-public interface IWeaponBehavior
-{
-	void Shoot();
-	bool CanIShoot();
-}
-
 public class WeaponBehavior
 {
 	private IWeaponBehavior _weaponBehavior;
@@ -31,18 +25,5 @@ public class WeaponBehavior
 	public bool CanIShoot()
 	{
 		return _weaponBehavior.CanIShoot();
-	}
-}
-
-public class RevolverBehavior : IWeaponBehavior
-{
-	public void Shoot()
-	{
-
-	}
-
-	public bool CanIShoot()
-	{
-		return true;
 	}
 }

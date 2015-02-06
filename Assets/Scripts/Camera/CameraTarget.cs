@@ -88,7 +88,8 @@ public class CameraTarget : MonoBehaviour
 				transform.position.y,
 				targetPos.z
 			);
-			Debug.Log(targetPos.z + "----" + transform.position.y);
+
+			// Debug.Log(targetPos.z + "----" + transform.position.y);
 			// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
 			// transform.position = followTarget.transform.position + ();
 		}
@@ -205,6 +206,7 @@ public class CameraTarget : MonoBehaviour
         {
             transform.position = previousPosition;
         }
+
         if (currentPosition.x < minX || currentPosition.x > maxX)
         {
             transform.position = previousPosition;
@@ -218,6 +220,7 @@ public class CameraTarget : MonoBehaviour
         {
             transform.Translate(0, -zoomSpeed, zoomSpeed);
         }
+
         if (transform.position.y < zoomMax && Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             transform.Translate(0, zoomSpeed, -zoomSpeed);
