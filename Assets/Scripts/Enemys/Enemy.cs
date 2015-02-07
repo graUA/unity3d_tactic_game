@@ -88,7 +88,6 @@ public class Enemy : MonoBehaviour
 
 	public void AttackCharacter(GameObject hero)
 	{
-		Debug.Log("FIRE!!!");
 		GUN.Shoot();
 	}
 

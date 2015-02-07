@@ -1,107 +1,130 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using Global;
+
 public class Weapon : MonoBehaviour 
 {
 	public float shotDamage = 10f;
-	public float shotSpeed = 0.5f;
-	public float ammoCount = 10f;
+	public int ammoCount = 10;
+	public int ammoInStack = 5;
 	public GameObject shotPointObject;
-
-	//
-	public int damagePerShot = 20;                  // The damage inflicted by each bullet.
-	public float timeBetweenBullets = 2f;        	// The time between each shot.
-	public float range = 100f;                      // The distance the gun can fire.
+	public float timeBetweenBullets = 1f;
+	public float range = 100f;
+	public float timerBetweenReload = 5f;
 	
-	float timer;                                    // A timer to determine when to fire.
-	Ray shootRay;                                   // A ray from the gun end forwards.
-	RaycastHit shootHit;                            // A raycast hit to get information about what was hit.
-	int shootableMask;                              // A layer mask so the raycast only hits things on the shootable layer.
-	ParticleSystem gunParticles;                    // Reference to the particle system.
-	LineRenderer gunLine;                           // Reference to the line renderer.
-	AudioSource gunAudio;                           // Reference to the audio source.
-	Light gunLight;                                 // Reference to the light component.
-	float effectsDisplayTime = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
-	//
+	float timer;
+	float reloadTimer;
+	Ray shootRay;
+	RaycastHit shootHit;
+	int shootableMask;
+	ParticleSystem gunParticles;
+	LineRenderer gunLine;
+	AudioSource gunAudio;
+	Light gunLight;
+	float effectsDisplayTime = 0.05f;
+
+	protected WeaponBehavior weaponBehavior;
+	protected int unitAmmoCount = 0;
 
 	// Use this for initialization
 	void Awake () {
-		shootableMask = LayerMask.GetMask ("Shootable");
+		shootableMask = LayerMask.GetMask (Layers.heroes);
 		
 		// Set up the references.
 		gunParticles = GetComponent<ParticleSystem> ();
 		gunLine = GetComponent <LineRenderer> ();
 		gunAudio = GetComponent<AudioSource> ();
 		gunLight = GetComponent<Light> ();
+
+		timer = timeBetweenBullets;
+		reloadTimer = timerBetweenReload;
 	}
 
 	void Update ()
 	{
 		// Add the time since Update was last called to the timer.
 		timer += Time.deltaTime;
-		
-		// If the Fire1 button is being press and it's time to fire...
-		if(Input.GetButton ("Fire1") && timer >= timeBetweenBullets)
-		{
-			// ... shoot the gun.
-			Shoot ();
-		}
+		reloadTimer += Time.deltaTime;
 		
 		// If the timer has exceeded the proportion of timeBetweenBullets that the effects should be displayed for...
-		if(timer >= timeBetweenBullets * effectsDisplayTime)
+		if(timer >= effectsDisplayTime)
 		{
 			// ... disable the effects.
 			DisableEffects ();
 		}
 	}
 	
-	public void DisableEffects ()
+	protected void DisableEffects()
 	{
 		// Disable the line renderer and the light.
 		gunLine.enabled = false;
 		gunLight.enabled = false;
 	}
 
+	protected void PlayEffects()
+	{
+		// Play the gun shot audioclip.
+		gunAudio.Play ();
+
+		// Enable the light.
+		gunLight.enabled = true;
+
+		// Stop the particles from playing if they were, then start the particles.
+		gunParticles.Stop ();
+		gunParticles.Play ();
+		
+		// Enable the line renderer and set it's first position to be the end of the gun.
+		gunLine.enabled = true;
+	}
+
+	protected void Reloading()
+	{
+		if ((ammoCount - ammoInStack) > 0)
+		{
+			unitAmmoCount = ammoInStack;
+			ammoCount -= ammoInStack;
+		}
+		else
+		{
+			unitAmmoCount = ammoCount;
+			ammoCount = 0;
+		}
+	}
+
 	public void Shoot()
 	{
-		if (timer >= timeBetweenBullets) 
+		if (timer >= timeBetweenBullets && weaponBehavior.CanIShoot()) 
 		{
-			timer = 0f;
-			
-			// Play the gun shot audioclip.
-			gunAudio.Play ();
-			
-			// Enable the light.
-			gunLight.enabled = true;
-			
-			// Stop the particles from playing if they were, then start the particles.
-			gunParticles.Stop ();
-			gunParticles.Play ();
-			
-			// Enable the line renderer and set it's first position to be the end of the gun.
-			gunLine.enabled = true;
-			gunLine.SetPosition (0, transform.position);
-			
-			// Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
-			shootRay.origin = transform.position;
-			shootRay.direction = transform.forward;
-			
-			// Perform the raycast against gameobjects on the shootable layer and if it hits something...
-			if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
+			if (unitAmmoCount > 0)
 			{
-				// Try and find an EnemyHealth script on the gameobject hit.
+				unitAmmoCount--;
+
+				timer = 0f;
+				reloadTimer = 0;
+
+				// Enable gunLine, gunLight and Play gunAudio.
+				PlayEffects();
+
+				gunLine.SetPosition (0, transform.position);
 				
-				// If the EnemyHealth component exist...
+				// Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
+				shootRay.origin = transform.position;
+				shootRay.direction = transform.forward;
 				
-				
-				// Set the second position of the line renderer to the point the raycast hit.
-				gunLine.SetPosition (1, shootHit.point);
+				// Perform the raycast against gameobjects on the shootable layer and if it hits something...
+				if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
+				{
+					gunLine.SetPosition (1, shootHit.point);
+				}
+				else
+				{
+					gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
+				}
 			}
-			// If the raycast didn't hit anything on the shootable layer...
-			else
+			else if (reloadTimer >= timerBetweenReload)
 			{
-				// ... set the second position of the line renderer to the fullest extent of the gun's range.
-				gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
+				Reloading();
 			}
 		}
 	}
