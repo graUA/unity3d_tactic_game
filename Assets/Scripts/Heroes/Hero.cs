@@ -67,6 +67,11 @@ public class Hero : MonoBehaviour
 		}
 	}
 
+	public void TakeDemage()
+	{
+		transform.rigidbody.AddForce(Vector3.back * 100, ForceMode.Impulse);
+	}
+
 	public void SelectHero()
 	{
 		if (selectCircle != null)

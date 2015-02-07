@@ -115,6 +115,8 @@ public class Weapon : MonoBehaviour
 				// Perform the raycast against gameobjects on the shootable layer and if it hits something...
 				if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
 				{
+					Hero hero = shootHit.collider.GetComponent <Hero> ();
+					hero.TakeDemage();
 					gunLine.SetPosition (1, shootHit.point);
 				}
 				else
