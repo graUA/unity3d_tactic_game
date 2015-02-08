@@ -8,7 +8,6 @@ public class Weapon : MonoBehaviour
 	public float shotDamage = 10f;
 	public int ammoCount = 10;
 	public int ammoInStack = 5;
-	public GameObject shotPointObject;
 	public float timeBetweenBullets = 1f;
 	public float range = 100f;
 	public float timerBetweenReload = 5f;

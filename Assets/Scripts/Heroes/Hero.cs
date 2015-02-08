@@ -42,14 +42,15 @@ public class Hero : MonoBehaviour
 
 	void MoveCharacter(float destinationDistance)
 	{
-		if(destinationDistance > .5f)
+		if(destinationDistance > .5f && navAgent.enabled)
 		{
 			navAgent.SetDestination(destinationPosition);
+
 //			myTransform.position = Vector3.MoveTowards(myTransform.position, destinationPosition, speed * Time.deltaTime * characterSpeed);
 		}
 		else
 		{
-			navAgent.ResetPath();
+			navAgent.enabled = false;
 		}
 	}
 	
@@ -60,10 +61,11 @@ public class Hero : MonoBehaviour
 		
 		if (playerPlane.Raycast(ray, out hitdist))
 		{
+			navAgent.enabled = true;
 			Vector3 targetPoint = ray.GetPoint(hitdist);
 			destinationPosition = ray.GetPoint(hitdist);
 			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-			myTransform.rotation = targetRotation;
+			myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 20f * Time.smoothDeltaTime);
 		}
 	}
 

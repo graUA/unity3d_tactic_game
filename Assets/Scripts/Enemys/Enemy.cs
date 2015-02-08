@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 	
 	public float fieldOfViewAngle;
 	public float speed;
+	public float rotatonSpeed = 10f;
 
 	protected NavMeshAgent navAgent;
 	protected EnemyBehavior enemyBehavior;
@@ -82,7 +83,7 @@ public class Enemy : MonoBehaviour
 		if (enemyBehavior.CanIRotate())
 		{
 			Quaternion targetRotation = Quaternion.LookRotation(position - transform.position);
-			transform.rotation = targetRotation;
+			transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotatonSpeed * Time.smoothDeltaTime);
 		}
 	}
 
