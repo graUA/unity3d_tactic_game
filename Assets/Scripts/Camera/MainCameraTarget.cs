@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraTarget : MonoBehaviour
+public class MainCameraTarget : MonoBehaviour
 {
-    // Border on screen edges where we can move the camera
+	// Border on screen edges where we can move the camera
     private static int ACTIVE_SCREEN_BORDER_WIDTH = 5;
 
     // Camera movement speed
@@ -37,6 +37,11 @@ public class CameraTarget : MonoBehaviour
 	private static GameObject followTarget = null;
 
 	private static bool hasFollowed = false;
+
+	MainCameraTarget()
+	{
+		// MainCamera init
+	}
 
     // Update is called once per frame
     void Update()

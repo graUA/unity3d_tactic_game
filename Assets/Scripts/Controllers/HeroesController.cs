@@ -33,7 +33,7 @@ public class HeroesController : MonoBehaviour
         if (Input.GetMouseButton(0))
 		{
 			SelectHero();
-            SelectHeroBySelectionFrame();
+//            SelectHeroBySelectionFrame();
 		}
 
 		if (Input.GetMouseButton(1))
@@ -52,23 +52,23 @@ public class HeroesController : MonoBehaviour
 	void SetUpFollowMode()
 	{
 		if (selectedHeroes.Count > 0)
-			CameraTarget.SetFollowCamera(selectedHeroes[0].gameObject);
+			MainCameraTarget.SetFollowCamera(selectedHeroes[0].gameObject);
 	}
 
 	// Check heroes and select those are under selection frame
-    void SelectHeroBySelectionFrame()
-    {
-        foreach (Hero hero in heroes)
-        {
-            Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
-            camPos.y = CameraTarget.InvertMouseY(camPos.y);
-
-            if (CameraTarget.selection.Contains(camPos, true))
-            {
-                AddNewHero(hero);
-            }
-        }
-    }
+//    void SelectHeroBySelectionFrame()
+//    {
+//        foreach (Hero hero in heroes)
+//        {
+//            Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
+//            camPos.y = MainCameraTarget.InvertMouseY(camPos.y);
+//
+//            if (MainCameraTarget.selection.Contains(camPos, true))
+//            {
+//                AddNewHero(hero);
+//            }
+//        }
+//    }
 
 	void SelectHero()
 	{
