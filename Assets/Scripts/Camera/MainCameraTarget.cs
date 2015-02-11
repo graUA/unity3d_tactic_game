@@ -3,9 +3,6 @@ using System.Collections;
 
 public class MainCameraTarget : MonoBehaviour
 {
-	// Border on screen edges where we can move the camera
-    private static int ACTIVE_SCREEN_BORDER_WIDTH = 5;
-
     // Camera movement speed
     public float movementSpeed;
 
@@ -38,21 +35,30 @@ public class MainCameraTarget : MonoBehaviour
 
 	private static bool hasFollowed = false;
 
-	MainCameraTarget()
+	private CameraBase mainCamera;
+
+	// Camera initialization
+	void Start() 
 	{
 		// MainCamera init
+		CameraComponent camera = new CameraComponent(transform);
+		FreeCamera freeCamera = new FreeCamera(transform, minX, minZ, maxX, maxZ, movementSpeed);
+		freeCamera.SetComponent(camera);
+		
+		mainCamera = freeCamera;
 	}
 
     // Update is called once per frame
     void Update()
 	{
-		UpdateCamera();
-        ZoomCamera();
-        RotateCamera();
-        CheckCameraAndDrawSelectionFrame();
-
-		if (hasFollowed)
-			FollowCamera();
+//		UpdateCamera();
+//        ZoomCamera();
+//        RotateCamera();
+//        CheckCameraAndDrawSelectionFrame();
+//
+//		if (hasFollowed)
+//			FollowCamera();
+		mainCamera.Update();
     }
 
     // Update is called once per frame after Update() was called
@@ -141,82 +147,82 @@ public class MainCameraTarget : MonoBehaviour
         return Screen.height - y;
     }
 
-    // Move camera by mouse
-    private void MoveCameraByMouse(float mouseX, float mouseY)
-    {
-        var previousPosition = transform.position;
-
-        if (mouseX < ACTIVE_SCREEN_BORDER_WIDTH)
-        {
-            transform.Translate(Vector3.right * -movementSpeed * Time.deltaTime);
-        }
-        if (mouseX >= Screen.width - ACTIVE_SCREEN_BORDER_WIDTH)
-        {
-            transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
-        }
-        if (mouseY < ACTIVE_SCREEN_BORDER_WIDTH)
-        {
-            transform.Translate(Vector3.forward * -movementSpeed * Time.deltaTime);
-        }
-        if (mouseY >= Screen.height - ACTIVE_SCREEN_BORDER_WIDTH)
-        {
-            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-        }
-
-        PreventInfiniteMovingOfCamera(previousPosition, transform.position);
-    }
+//    // Move camera by mouse
+//    private void MoveCameraByMouse(float mouseX, float mouseY)
+//    {
+//        var previousPosition = transform.position;
+//
+//        if (mouseX < ACTIVE_SCREEN_BORDER_WIDTH)
+//        {
+//            transform.Translate(Vector3.right * -movementSpeed * Time.deltaTime);
+//        }
+//        if (mouseX >= Screen.width - ACTIVE_SCREEN_BORDER_WIDTH)
+//        {
+//            transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
+//        }
+//        if (mouseY < ACTIVE_SCREEN_BORDER_WIDTH)
+//        {
+//            transform.Translate(Vector3.forward * -movementSpeed * Time.deltaTime);
+//        }
+//        if (mouseY >= Screen.height - ACTIVE_SCREEN_BORDER_WIDTH)
+//        {
+//            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+//        }
+//
+//        PreventInfiniteMovingOfCamera(previousPosition, transform.position);
+//    }
 
 	// Update camera position when we try to move it by keys or mouse 
-	private void UpdateCamera()
-	{
-		if (!Input.GetKey(KeyCode.RightArrow) &&
-            !Input.GetKey(KeyCode.LeftArrow) &&
-            !Input.GetKey(KeyCode.DownArrow) &&
-            !Input.GetKey(KeyCode.UpArrow)) {
-			
-            MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
-		}
-
-		MoveCameraByKeys();
-	}
+//	private void UpdateCamera()
+//	{
+//		if (!Input.GetKey(KeyCode.RightArrow) &&
+//            !Input.GetKey(KeyCode.LeftArrow) &&
+//            !Input.GetKey(KeyCode.DownArrow) &&
+//            !Input.GetKey(KeyCode.UpArrow)) {
+//			
+//            MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
+//		}
+//
+//		MoveCameraByKeys();
+//	}
 
 	// Move camera by keys
-	private void MoveCameraByKeys()
-	{
-		var previousPosition = transform.position;
-		if(Input.GetKey(KeyCode.RightArrow))
-		{
-			transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
-		}
-		if(Input.GetKey(KeyCode.LeftArrow))
-		{
-			transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
-		}
-		if(Input.GetKey(KeyCode.DownArrow))
-		{
-			transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
-		}
-		if(Input.GetKey(KeyCode.UpArrow))
-		{
-			transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-		}
-
-		PreventInfiniteMovingOfCamera(previousPosition, transform.position);
-	}
+//	private void MoveCameraByKeys()
+//	{
+//		var previousPosition = transform.position;
+//		if(Input.GetKey(KeyCode.RightArrow))
+//		{
+//			transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
+//		}
+//		if(Input.GetKey(KeyCode.LeftArrow))
+//		{
+//			transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
+//		}
+//		if(Input.GetKey(KeyCode.DownArrow))
+//		{
+//			transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
+//		}
+//		if(Input.GetKey(KeyCode.UpArrow))
+//		{
+//			transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+//		}
+//
+//		PreventInfiniteMovingOfCamera(previousPosition, transform.position);
+//	}
 
     // Stop camera when it reaches scene limits and return it to the previous position 
-    private void PreventInfiniteMovingOfCamera(Vector3 previousPosition, Vector3 currentPosition)
-    {
-        if (currentPosition.z < minZ || currentPosition.z > maxZ)
-        {
-            transform.position = previousPosition;
-        }
-
-        if (currentPosition.x < minX || currentPosition.x > maxX)
-        {
-            transform.position = previousPosition;
-        }
-    }
+//    private void PreventInfiniteMovingOfCamera(Vector3 previousPosition, Vector3 currentPosition)
+//    {
+//        if (currentPosition.z < minZ || currentPosition.z > maxZ)
+//        {
+//            transform.position = previousPosition;
+//        }
+//
+//        if (currentPosition.x < minX || currentPosition.x > maxX)
+//        {
+//            transform.position = previousPosition;
+//        }
+//    }
 
     // Zoom camera by scrolling the wheel
     private void ZoomCamera()
