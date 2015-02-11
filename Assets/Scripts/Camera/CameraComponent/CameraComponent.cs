@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraComponent : CameraBase
 {
-	public readonly Transform transform;
+	private readonly Transform transform;
 
 	public CameraComponent(Transform transform) 
 	{
@@ -15,7 +15,7 @@ public class CameraComponent : CameraBase
 		// Do something
 	}
 
-	private void CameraToStartPoint()
+	public void CameraToStartPoint()
 	{
 		// Move camera to start point
 	}

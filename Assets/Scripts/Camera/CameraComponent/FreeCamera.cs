@@ -13,7 +13,7 @@ public class FreeCamera : CameraDecorator
 	private int minX, minZ, maxX, maxZ;
 
 	// Game object transformation
-	private Transform transform;
+	private readonly Transform transform;
 
 	public FreeCamera(Transform transform, int minX, int minZ, int maxX, int maxZ, float movementSpeed)
 	{
