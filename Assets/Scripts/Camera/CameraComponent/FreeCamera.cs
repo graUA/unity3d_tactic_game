@@ -3,6 +3,9 @@ using System.Collections;
 
 public class FreeCamera : CameraDecorator
 {	
+	/// <summary>
+	/// The active screen border width
+	/// </summary>
 	private static int ACTIVE_SCREEN_BORDER_WIDTH = 5;
 
 	/// <summary>
@@ -32,7 +35,6 @@ public class FreeCamera : CameraDecorator
 	public FreeCamera(Transform transform, int minX, int minZ, int maxX, int maxZ, float movementSpeed)
 	{
 		this.transform = transform;
-
 		this.minX = minX;
 		this.maxX = maxX;
 		this.minZ = minZ;
@@ -55,7 +57,7 @@ public class FreeCamera : CameraDecorator
 	private void UpdateCamera()
 	{
 		if (!Input.GetKey(KeyCode.RightArrow)
-		    && !Input.GetKey(KeyCode.LeftArrow)
+			&& !Input.GetKey(KeyCode.LeftArrow)
 		    && !Input.GetKey(KeyCode.DownArrow)
 		    && !Input.GetKey(KeyCode.UpArrow))
 		{

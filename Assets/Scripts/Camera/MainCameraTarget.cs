@@ -3,82 +3,91 @@ using System.Collections;
 
 public class MainCameraTarget : MonoBehaviour
 {
-    // Camera movement speed
+    /// <summary>
+    /// The movement speed.
+    /// </summary>
     public float movementSpeed;
 
-    // Scene limits
+    /// <summary>
+    /// The minimum x.
+    /// </summary>
     public int minX, minZ, maxX, maxZ;
 
-    // Camera zooming limits
+    /// <summary>
+    /// The zoom minimum.
+    /// </summary>
     public int zoomMin, zoomMax;
 
-    // Camera zooming speed
+    /// <summary>
+    /// The zoom speed.
+    /// </summary>
     public float zoomSpeed;
 
-    // Camera rotation speed
-    public float rotateSpeed;
-
-    // Mouse x position for camera rotation
-    private float mouseXPositionForRotation;
-	
-    // Camera Selection Frame
-	public static Rect selection = new Rect(0, 0, 0, 0);
+    /// <summary>
+    /// The rotate speed.
+    /// </summary>
+	public float rotateSpeed;
     
-	// Selection frame texture
+	/// <summary>
+	/// The selection_frame.
+	/// </summary>
 	public Texture2D selection_frame = null;
-    
-	// Start point of selection frame
-	private Vector3 startClick = -Vector3.one;
 
-	// Follow camera
+	/// <summary>
+	/// The current camera.
+	/// </summary>
+	private CameraBase currentCamera;
+
 	private static GameObject followTarget = null;
 
 	private static bool hasFollowed = false;
 
-	private CameraBase mainCamera;
-
-	// Camera initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start() 
 	{
-		// MainCamera init
+		/// RTS camera init
 		CameraComponent camera = new CameraComponent(transform);
 		FreeCamera freeCamera = new FreeCamera(transform, minX, minZ, maxX, maxZ, movementSpeed);
-		ZoomCamera zoomCamera = new ZoomCamera (transform, zoomMin, zoomMax, zoomSpeed);
+		ZoomCamera zoomCamera = new ZoomCamera(transform, zoomMin, zoomMax, zoomSpeed);
+		RotateCamera rotateCamera = new RotateCamera(transform, rotateSpeed);
+		CameraSelectionFrame cameraSelect = new CameraSelectionFrame(selection_frame);
 
 		freeCamera.SetComponent(camera);
 		zoomCamera.SetComponent(freeCamera);
+		rotateCamera.SetComponent(zoomCamera);
+		cameraSelect.SetComponent(rotateCamera);
 		
-		mainCamera = zoomCamera;
+		currentCamera = cameraSelect;
 	}
 
-    // Update is called once per frame
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
     void Update()
 	{
-//		UpdateCamera();
-//        ZoomCamera();
-//        RotateCamera();
-//        CheckCameraAndDrawSelectionFrame();
-//
-//		if (hasFollowed)
-//			FollowCamera();
-		mainCamera.Update();
+		currentCamera.Update();
     }
 
-    // Update is called once per frame after Update() was called
+    /// <summary>
+    /// Lates the update.
+    /// </summary>
     void LateUpdate()
     {
-        mouseXPositionForRotation = Input.mousePosition.x;
+		currentCamera.LateUpdate();
     }
 
+	/// <summary>
+	/// Raises the GUI event.
+	/// </summary>
     void OnGUI()
     {
-        if (startClick != -Vector3.one)
-        {
-            GUI.color = new Color(1, 1, 1, 0.2f);
-            GUI.DrawTexture(selection, selection_frame);
-        }
+		currentCamera.OnGUI();
     }
 
+
+	// TODO: Move to follow camera component
 	public static void SetFollowCamera(GameObject target)
 	{
 		hasFollowed = true;
@@ -108,149 +117,4 @@ public class MainCameraTarget : MonoBehaviour
 			// transform.position = followTarget.transform.position + ();
 		}
 	}
-
-	// Draw common selection frame
-    private void CheckCameraAndDrawSelectionFrame()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            startClick = Input.mousePosition;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            if (selection.width < 0)
-            {
-                selection.x += selection.width;
-                selection.width = -selection.width;
-            }
-            
-			if (selection.height < 0)
-            {
-                selection.y += selection.height;
-                selection.height = -selection.height;
-            }
-
-            startClick = -Vector3.one;
-        }
-
-        if (Input.GetMouseButton(0))
-        {
-            selection = new Rect(
-                startClick.x,
-                InvertMouseY(startClick.y),
-                Input.mousePosition.x - startClick.x,
-                InvertMouseY(Input.mousePosition.y) - InvertMouseY(startClick.y));
-        }
-    }
-
-	// We use this method to remove the difference
-	// between cordinate sytems of camera and selection frame
-    public static float InvertMouseY(float y)
-    {
-        return Screen.height - y;
-    }
-
-//    // Move camera by mouse
-//    private void MoveCameraByMouse(float mouseX, float mouseY)
-//    {
-//        var previousPosition = transform.position;
-//
-//        if (mouseX < ACTIVE_SCREEN_BORDER_WIDTH)
-//        {
-//            transform.Translate(Vector3.right * -movementSpeed * Time.deltaTime);
-//        }
-//        if (mouseX >= Screen.width - ACTIVE_SCREEN_BORDER_WIDTH)
-//        {
-//            transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
-//        }
-//        if (mouseY < ACTIVE_SCREEN_BORDER_WIDTH)
-//        {
-//            transform.Translate(Vector3.forward * -movementSpeed * Time.deltaTime);
-//        }
-//        if (mouseY >= Screen.height - ACTIVE_SCREEN_BORDER_WIDTH)
-//        {
-//            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-//        }
-//
-//        PreventInfiniteMovingOfCamera(previousPosition, transform.position);
-//    }
-
-	// Update camera position when we try to move it by keys or mouse 
-//	private void UpdateCamera()
-//	{
-//		if (!Input.GetKey(KeyCode.RightArrow) &&
-//            !Input.GetKey(KeyCode.LeftArrow) &&
-//            !Input.GetKey(KeyCode.DownArrow) &&
-//            !Input.GetKey(KeyCode.UpArrow)) {
-//			
-//            MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
-//		}
-//
-//		MoveCameraByKeys();
-//	}
-
-	// Move camera by keys
-//	private void MoveCameraByKeys()
-//	{
-//		var previousPosition = transform.position;
-//		if(Input.GetKey(KeyCode.RightArrow))
-//		{
-//			transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
-//		}
-//		if(Input.GetKey(KeyCode.LeftArrow))
-//		{
-//			transform.Translate(Vector3.left * movementSpeed * Time.deltaTime);
-//		}
-//		if(Input.GetKey(KeyCode.DownArrow))
-//		{
-//			transform.Translate(Vector3.back * movementSpeed * Time.deltaTime);
-//		}
-//		if(Input.GetKey(KeyCode.UpArrow))
-//		{
-//			transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
-//		}
-//
-//		PreventInfiniteMovingOfCamera(previousPosition, transform.position);
-//	}
-
-    // Stop camera when it reaches scene limits and return it to the previous position 
-//    private void PreventInfiniteMovingOfCamera(Vector3 previousPosition, Vector3 currentPosition)
-//    {
-//        if (currentPosition.z < minZ || currentPosition.z > maxZ)
-//        {
-//            transform.position = previousPosition;
-//        }
-//
-//        if (currentPosition.x < minX || currentPosition.x > maxX)
-//        {
-//            transform.position = previousPosition;
-//        }
-//    }
-
-    // Zoom camera by scrolling the wheel
-//    private void ZoomCamera()
-//    {
-//        if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
-//        {
-//            transform.Translate(0, -zoomSpeed, zoomSpeed);
-//        }
-//
-//        if (transform.position.y < zoomMax && Input.GetAxis("Mouse ScrollWheel") < 0)
-//        {
-//            transform.Translate(0, zoomSpeed, -zoomSpeed);
-//        }
-//    }
-
-    // Rotate camera by wheel
-    private void RotateCamera()
-    {
-        if (Input.GetMouseButton(2))
-        {
-            if (Input.mousePosition.x != mouseXPositionForRotation)
-            {
-                var rotation = (Input.mousePosition.x - mouseXPositionForRotation) * rotateSpeed * Time.deltaTime;
-                transform.Rotate(0, rotation, 0);
-            }
-        }
-    }
 }
