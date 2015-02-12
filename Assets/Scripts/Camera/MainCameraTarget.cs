@@ -43,9 +43,12 @@ public class MainCameraTarget : MonoBehaviour
 		// MainCamera init
 		CameraComponent camera = new CameraComponent(transform);
 		FreeCamera freeCamera = new FreeCamera(transform, minX, minZ, maxX, maxZ, movementSpeed);
+		ZoomCamera zoomCamera = new ZoomCamera (transform, zoomMin, zoomMax, zoomSpeed);
+
 		freeCamera.SetComponent(camera);
+		zoomCamera.SetComponent(freeCamera);
 		
-		mainCamera = freeCamera;
+		mainCamera = zoomCamera;
 	}
 
     // Update is called once per frame
@@ -225,18 +228,18 @@ public class MainCameraTarget : MonoBehaviour
 //    }
 
     // Zoom camera by scrolling the wheel
-    private void ZoomCamera()
-    {
-        if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            transform.Translate(0, -zoomSpeed, zoomSpeed);
-        }
-
-        if (transform.position.y < zoomMax && Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            transform.Translate(0, zoomSpeed, -zoomSpeed);
-        }
-    }
+//    private void ZoomCamera()
+//    {
+//        if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
+//        {
+//            transform.Translate(0, -zoomSpeed, zoomSpeed);
+//        }
+//
+//        if (transform.position.y < zoomMax && Input.GetAxis("Mouse ScrollWheel") < 0)
+//        {
+//            transform.Translate(0, zoomSpeed, -zoomSpeed);
+//        }
+//    }
 
     // Rotate camera by wheel
     private void RotateCamera()

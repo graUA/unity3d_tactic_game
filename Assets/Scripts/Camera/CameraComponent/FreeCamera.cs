@@ -3,18 +3,32 @@ using System.Collections;
 
 public class FreeCamera : CameraDecorator
 {	
-	// Border on screen edges where we can move the camera
 	private static int ACTIVE_SCREEN_BORDER_WIDTH = 5;
 
-	// Camera movement speed
-	private float speed;
-	
-	// Scene limits
-	private int minX, minZ, maxX, maxZ;
-
-	// Game object transformation
+	/// <summary>
+	/// The transform
+	/// </summary>
 	private readonly Transform transform;
 
+	/// <summary>
+	/// Camera moving speed
+	/// </summary>
+	private float speed;
+	
+	/// <summary>
+	/// Camera moving limits
+	/// </summary>
+	private int minX, minZ, maxX, maxZ;
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="FreeCamera"/> class.
+	/// </summary>
+	/// <param name="transform">Transform.</param>
+	/// <param name="minX">Minimum x.</param>
+	/// <param name="minZ">Minimum z.</param>
+	/// <param name="maxX">Max x.</param>
+	/// <param name="maxZ">Max z.</param>
+	/// <param name="movementSpeed">Movement speed.</param>
 	public FreeCamera(Transform transform, int minX, int minZ, int maxX, int maxZ, float movementSpeed)
 	{
 		this.transform = transform;
@@ -26,16 +40,24 @@ public class FreeCamera : CameraDecorator
 		this.speed = movementSpeed;
 	}
 
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	public override void Update()
 	{
 		base.Update();
 		UpdateCamera();
 	}
 
-	// Update сamera by mouse or by keyborad
+	/// <summary>
+	/// Updates the camera.
+	/// </summary>
 	private void UpdateCamera()
 	{
-		if (!Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow))
+		if (!Input.GetKey(KeyCode.RightArrow)
+		    && !Input.GetKey(KeyCode.LeftArrow)
+		    && !Input.GetKey(KeyCode.DownArrow)
+		    && !Input.GetKey(KeyCode.UpArrow))
 		{
 			MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
 		}
@@ -43,7 +65,11 @@ public class FreeCamera : CameraDecorator
 		MoveCameraByKeys();
 	}
 
-	// Move camera by mouse
+	/// <summary>
+	/// Moves the camera by mouse.
+	/// </summary>
+	/// <param name="mouseX">Mouse x.</param>
+	/// <param name="mouseY">Mouse y.</param>
 	private void MoveCameraByMouse(float mouseX, float mouseY)
 	{
 		var previousPosition = transform.position;
@@ -68,7 +94,9 @@ public class FreeCamera : CameraDecorator
 		LimitCamera(previousPosition, transform.position);
 	}
 
-	// Move camera by keyborad arrows
+	/// <summary>
+	/// Moves the camera by keys.
+	/// </summary>
 	private void MoveCameraByKeys()
 	{
 		var previousPosition = transform.position;
@@ -93,7 +121,11 @@ public class FreeCamera : CameraDecorator
 		LimitCamera(previousPosition, transform.position);
 	}
 
-	// Setup camera limits
+	/// <summary>
+	/// Limits the camera.
+	/// </summary>
+	/// <param name="previousPosition">Previous position.</param>
+	/// <param name="currentPosition">Current position.</param>
 	private void LimitCamera(Vector3 previousPosition, Vector3 currentPosition)
 	{
 		if (currentPosition.z < minZ || currentPosition.z > maxZ)
