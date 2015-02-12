@@ -6,16 +6,44 @@ using Global;
 
 public class HeroesController : MonoBehaviour 
 {
+	/// <summary>
+	/// The heroes.
+	/// </summary>
     List<Hero> heroes = new List<Hero>();
+
+	/// <summary>
+	/// The selected heroes.
+	/// </summary>
 	List<Hero> selectedHeroes = new List<Hero>();
 
+	/// <summary>
+	/// The selecteble mask.
+	/// </summary>
 	private int selectebleMask;
+
+	/// <summary>
+	/// The range.
+	/// </summary>
 	private float range = 100f;
+
+	/// <summary>
+	/// The shoot hit.
+	/// </summary>
 	RaycastHit shootHit;
+
+	/// <summary>
+	/// The ray.
+	/// </summary>
 	Ray ray;
+
+	/// <summary>
+	/// The user interface ctr.
+	/// </summary>
 	UIController uiCtr;
 
-	// Use this for initialization
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start () 
 	{
         foreach (GameObject hero in GameObject.FindGameObjectsWithTag(Tags.heroes))
@@ -27,13 +55,15 @@ public class HeroesController : MonoBehaviour
 		uiCtr = GetComponent<UIController>();
 	}
 	
-	// Update is called once per frame
+	/// <summary>
+	/// Update this instance.
+	/// </summary>
 	void Update () 
 	{
         if (Input.GetMouseButton(0))
 		{
 			SelectHero();
-//            SelectHeroBySelectionFrame();
+			SelectHeroBySelectionFrame();
 		}
 
 		if (Input.GetMouseButton(1))
@@ -49,27 +79,35 @@ public class HeroesController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets up follow mode.
+	/// </summary>
 	void SetUpFollowMode()
 	{
 		if (selectedHeroes.Count > 0)
 			MainCameraTarget.SetFollowCamera(selectedHeroes[0].gameObject);
 	}
 
-	// Check heroes and select those are under selection frame
-//    void SelectHeroBySelectionFrame()
-//    {
-//        foreach (Hero hero in heroes)
-//        {
-//            Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
-//            camPos.y = MainCameraTarget.InvertMouseY(camPos.y);
-//
-//            if (MainCameraTarget.selection.Contains(camPos, true))
-//            {
-//                AddNewHero(hero);
-//            }
-//        }
-//    }
+	/// <summary>
+	/// Check heroes and select those are under selection frame
+	/// </summary>
+    void SelectHeroBySelectionFrame()
+    {
+        foreach (Hero hero in heroes)
+        {
+            Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
+            camPos.y = CameraSelectionFrame.InvertMouseY(camPos.y);
 
+			if (CameraSelectionFrame.selection.Contains(camPos, true))
+            {
+                AddNewHero(hero);
+            }
+        }
+    }
+
+	/// <summary>
+	/// Selects the hero.
+	/// </summary>
 	void SelectHero()
 	{
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -88,7 +126,9 @@ public class HeroesController : MonoBehaviour
 		}
 	}
 
-
+	/// <summary>
+	/// Gets the distination position.
+	/// </summary>
 	void GetDistinationPosition()
 	{
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -106,6 +146,10 @@ public class HeroesController : MonoBehaviour
 
 	#region Heroes Array monipulation methods:
 
+	/// <summary>
+	/// Adds the new hero.
+	/// </summary>
+	/// <param name="hero">Hero.</param>
 	void AddNewHero(Hero hero)
 	{
 		if (!selectedHeroes.Contains(hero))
@@ -115,6 +159,9 @@ public class HeroesController : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Clears the heroes list.
+	/// </summary>
 	void ClearHeroesList()
 	{
 		foreach (Hero hero in selectedHeroes)
