@@ -76,7 +76,6 @@ public class CameraSelectionFrame : CameraDecorator
 				selection.x += selection.width;
 				selection.width = -selection.width;
 			}
-			
 			if (selection.height < 0)
 			{
 				selection.y += selection.height;
