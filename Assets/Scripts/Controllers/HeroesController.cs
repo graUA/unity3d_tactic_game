@@ -65,12 +65,10 @@ public class HeroesController : MonoBehaviour
 			SelectHero();
 			SelectHeroBySelectionFrame();
 		}
-
 		if (Input.GetMouseButton(1))
 		{
 			GetDistinationPosition();
 		}
-
 		if (Input.GetKey(KeyCode.LeftShift)
 		    && Input.GetKey(KeyCode.LeftControl)
 		    && Input.GetKey(KeyCode.F))
@@ -137,7 +135,6 @@ public class HeroesController : MonoBehaviour
 		{
 			uiCtr.HighlightDestinationPoint(ray);
 		}
-
 		foreach (Hero hero in selectedHeroes)
 		{
 			hero.SetDistinationPosition(ray);
