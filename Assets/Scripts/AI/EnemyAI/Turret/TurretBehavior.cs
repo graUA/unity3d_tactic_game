@@ -14,4 +14,10 @@ public class TurretBehavior : IEnemyBehavior
 	{
 		return true;
 	}
+
+	public bool CanShotBeSuccess(Transform transformA, Transform transformB, float maxAngle)
+	{
+		float angle = HelperTrans.angeBetwineTwoTransforms(transformA, transformB);
+		return (angle < maxAngle * 0.5f) ? true : false;
+	}
 }

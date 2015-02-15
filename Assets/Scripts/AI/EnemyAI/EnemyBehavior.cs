@@ -26,4 +26,9 @@ public class EnemyBehavior
 	{
 		return _enemyBehavior.CanIRotate();
 	}
+
+	public bool CanShotBeSuccess(Transform transformA, Transform transformB, float maxAngle)
+	{
+		return _enemyBehavior.CanShotBeSuccess(transformA, transformB, maxAngle);
+	}
 }

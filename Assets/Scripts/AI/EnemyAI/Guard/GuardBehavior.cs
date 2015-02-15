@@ -14,4 +14,9 @@ public class GuardBehavior : IEnemyBehavior
 	{
 		return false;
 	}
+
+	public bool CanShotBeSuccess(Transform transformA, Transform transformB, float maxAngle)
+	{
+		return true;
+	}
 }

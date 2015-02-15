@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
 	protected EnemyController EC;         // EnemyController Class
 	protected Weapon GUN;
 
+	private float maxAngleToTarget = 10f;
+
 	public void Awake()
 	{
 		navAgent = GetComponent<NavMeshAgent>();
@@ -89,7 +91,10 @@ public class Enemy : MonoBehaviour
 
 	public void AttackCharacter(GameObject hero)
 	{
-		GUN.Shoot();
+		if (enemyBehavior.CanShotBeSuccess(hero.transform, transform, maxAngleToTarget))
+		{
+			GUN.Shoot();
+		}
 	}
 
 	// Virtual Methods:
