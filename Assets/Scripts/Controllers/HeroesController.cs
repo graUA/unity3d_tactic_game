@@ -60,7 +60,7 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void Update () 
 	{
-        if (Input.GetMouseButton(0))
+		if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift))
 		{
 			SelectHero();
 			SelectHeroBySelectionFrame();
@@ -74,6 +74,11 @@ public class HeroesController : MonoBehaviour
 		    && Input.GetKey(KeyCode.F))
 		{
 			SetUpFollowMode();
+		}
+
+		if (Input.GetKey(KeyCode.LeftShift) && selectedHeroes.Count > 0)
+		{
+			SetHeroRatation();
 		}
 	}
 
@@ -139,6 +144,13 @@ public class HeroesController : MonoBehaviour
 		{
 			hero.SetDistinationPosition(ray);
 		}
+	}
+
+	void SetHeroRatation()
+	{
+		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		Hero hero = selectedHeroes[0];
+		hero.RotateHero(ray);
 	}
 
 	#region Heroes Array monipulation methods:

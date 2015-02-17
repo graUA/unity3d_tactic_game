@@ -16,7 +16,7 @@ public class Hero : MonoBehaviour
 	private float destinationDistance;          // The distance between myTransform and destinationPosition
 
 	private SpriteRenderer selectCircle;
-
+	private float kHeroRotationSpeed = 200f;
 	private NavMeshAgent navAgent;
 	
 	void Awake()
@@ -87,6 +87,19 @@ public class Hero : MonoBehaviour
 		if (selectCircle != null)
 		{
 			selectCircle.enabled = false;  // hide select circle
+		}
+	}
+
+	public void RotateHero(Ray ray)
+	{
+		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
+		float hitdist = 0.0f;
+		
+		if (playerPlane.Raycast(ray, out hitdist))
+		{
+			Vector3 targetPoint = ray.GetPoint(hitdist);
+			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+			myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, kHeroRotationSpeed * Time.smoothDeltaTime);
 		}
 	}
 }
