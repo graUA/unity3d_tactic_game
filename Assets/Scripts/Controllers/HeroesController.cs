@@ -7,6 +7,16 @@ using Global;
 public class HeroesController : MonoBehaviour 
 {
 	/// <summary>
+	/// Delegate for on camera followed event
+	/// </summary>
+	public delegate void CameraFollowMode(GameObject target);
+
+	/// <summary>
+	/// Occurs when on camera followed.
+	/// </summary>
+	public static event CameraFollowMode onFollowCamera;
+
+	/// <summary>
 	/// The heroes.
 	/// </summary>
     List<Hero> heroes = new List<Hero>();
@@ -69,16 +79,13 @@ public class HeroesController : MonoBehaviour
 		{
 			GetDistinationPosition();
 		}
-		if (Input.GetKey(KeyCode.LeftShift)
-		    && Input.GetKey(KeyCode.LeftControl)
-		    && Input.GetKey(KeyCode.F))
-		{
-			SetUpFollowMode();
-		}
-
 		if (Input.GetKey(KeyCode.LeftShift) && selectedHeroes.Count > 0)
 		{
 			SetHeroRatation();
+		}
+		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.F))
+		{
+			SetUpFollowMode();
 		}
 	}
 
@@ -87,8 +94,10 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void SetUpFollowMode()
 	{
-		if (selectedHeroes.Count > 0)
-			MainCameraTarget.SetFollowCamera(selectedHeroes[0].gameObject);
+		if (onFollowCamera != null && selectedHeroes.Count > 0)
+		{
+			onFollowCamera(selectedHeroes[0].gameObject);
+		}
 	}
 
 	/// <summary>

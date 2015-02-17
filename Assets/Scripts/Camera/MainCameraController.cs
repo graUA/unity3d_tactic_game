@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainCameraTarget : MonoBehaviour
+public class MainCameraController : MonoBehaviour
 {
     /// <summary>
     /// The movement speed.
@@ -38,6 +38,16 @@ public class MainCameraTarget : MonoBehaviour
 	/// </summary>
 	private CameraBase currentCamera;
 
+	/// <summary>
+	/// The rts camera.
+	/// </summary>
+	private CameraBase rtsCamera;
+
+	/// <summary>
+	/// The follow camera.
+	/// </summary>
+	private CameraBase followCamera;
+
 	private static GameObject followTarget = null;
 
 	private static bool hasFollowed = false;
@@ -58,8 +68,11 @@ public class MainCameraTarget : MonoBehaviour
 		zoomCamera.SetComponent(freeCamera);
 		rotateCamera.SetComponent(zoomCamera);
 		cameraSelect.SetComponent(rotateCamera);
-		
-		currentCamera = cameraSelect;
+
+		rtsCamera = cameraSelect;
+		followCamera = rotateCamera;
+
+		currentCamera = rtsCamera;
 	}
 
 	/// <summary>
@@ -86,6 +99,29 @@ public class MainCameraTarget : MonoBehaviour
 		currentCamera.OnGUI();
     }
 
+	/// <summary>
+	/// Raises the enable event.
+	/// </summary>
+	void OnEnable()
+	{
+		HeroesController.onFollowCamera += OnFollowCamera;
+	}
+
+	/// <summary>
+	/// Raises the disable event.
+	/// </summary>
+	void OnDisable()
+	{
+		HeroesController.onFollowCamera -= OnFollowCamera;
+	}
+
+	/// <summary>
+	/// Raises the camera mode changed event.
+	/// </summary>
+	void OnFollowCamera(GameObject target)
+	{
+		currentCamera = followCamera;
+	}
 
 	// TODO: Move to follow camera component
 	public static void SetFollowCamera(GameObject target)
