@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
 	public float speed;
 	public float rotatonSpeed = 10f;
 	public GameObject weaponDeploy;
+	public WeaponType curWeaponType = WeaponType.Revolver;
 
 	protected NavMeshAgent navAgent;
 	protected EnemyBehavior enemyBehavior;
@@ -19,7 +20,6 @@ public class Enemy : MonoBehaviour
 	protected EnemyController EC;         // EnemyController Class
 	protected GameObject curWeapon;
 	protected Weapon GUN;
-
 	private float maxAngleToTarget = 10f;
 
 	public void Awake()
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 		GM = GameObject.FindGameObjectWithTag(Tags.gameManager);
 		EC = GM.GetComponent<EnemyController>();
 
-		curWeapon = GM.GetComponent<WeaponFactory>().getWeapon(WeaponType.Revolver, weaponDeploy.transform);
+		curWeapon = GM.GetComponent<WeaponFactory>().getWeapon(curWeaponType, weaponDeploy.transform);
 		curWeapon.transform.parent = weaponDeploy.transform;
 		GUN = curWeapon.GetComponent<Weapon>();
 

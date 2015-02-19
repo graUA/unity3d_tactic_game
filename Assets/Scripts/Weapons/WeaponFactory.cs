@@ -6,7 +6,8 @@ using Global;
 public class WeaponFactory : MonoBehaviour 
 {
 
-	public GameObject revolver;	
+	public GameObject revolver;
+	public GameObject shotgun;	
 	
 	public GameObject getWeapon(WeaponType weaponType, Transform deployTransform)
 	{
@@ -16,6 +17,10 @@ public class WeaponFactory : MonoBehaviour
 		{
 		case WeaponType.Revolver:
 			tragetWeapon = revolver;
+			break;
+
+		case WeaponType.Shotgun:
+			tragetWeapon = shotgun;
 			break;
 			
 		default:

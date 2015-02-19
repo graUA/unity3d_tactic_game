@@ -5,7 +5,7 @@ namespace Global
 { 
 	#region Constants
 
-	public enum WeaponType {Revolver, ShotGun, Rifle, Fier};
+	public enum WeaponType {Revolver, Shotgun, Rifle, Fier};
 
 	public static class Const
 	{
