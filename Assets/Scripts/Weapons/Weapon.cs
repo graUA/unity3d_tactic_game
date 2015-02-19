@@ -5,6 +5,7 @@ using Global;
 
 public class Weapon : MonoBehaviour 
 {
+	public GameObject shotOutPoint;
 	public float shotDamage = 10f;
 	public int ammoCount = 10;
 	public int ammoInStack = 5;
@@ -31,10 +32,10 @@ public class Weapon : MonoBehaviour
 		shootableMask = LayerMask.GetMask (Layers.heroes);
 		
 		// Set up the references.
-		gunParticles = GetComponent<ParticleSystem> ();
-		gunLine = GetComponent <LineRenderer> ();
-		gunAudio = GetComponent<AudioSource> ();
-		gunLight = GetComponent<Light> ();
+		gunParticles = shotOutPoint.GetComponent<ParticleSystem> ();
+		gunLine = shotOutPoint.GetComponent <LineRenderer> ();
+		gunAudio = shotOutPoint.GetComponent<AudioSource> ();
+		gunLight = shotOutPoint.GetComponent<Light> ();
 
 		timer = timeBetweenBullets;
 		reloadTimer = timerBetweenReload;
@@ -105,11 +106,11 @@ public class Weapon : MonoBehaviour
 				// Enable gunLine, gunLight and Play gunAudio.
 				PlayEffects();
 
-				gunLine.SetPosition (0, transform.position);
+				gunLine.SetPosition (0, shotOutPoint.transform.position);
 				
 				// Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
-				shootRay.origin = transform.position;
-				shootRay.direction = transform.forward;
+				shootRay.origin = shotOutPoint.transform.position;
+				shootRay.direction = shotOutPoint.transform.forward;
 				
 				// Perform the raycast against gameobjects on the shootable layer and if it hits something...
 				if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
