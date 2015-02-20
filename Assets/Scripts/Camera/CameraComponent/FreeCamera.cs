@@ -9,9 +9,9 @@ public class FreeCamera : CameraDecorator
 	private static int ACTIVE_SCREEN_BORDER_WIDTH = 5;
 
 	/// <summary>
-	/// The transform
+	/// The transform.
 	/// </summary>
-	private readonly Transform transform;
+	private Transform transform;
 
 	/// <summary>
 	/// Camera moving speed
@@ -22,19 +22,19 @@ public class FreeCamera : CameraDecorator
 	/// Camera moving limits
 	/// </summary>
 	private int minX, minZ, maxX, maxZ;
-
+	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FreeCamera"/> class.
 	/// </summary>
-	/// <param name="transform">Transform.</param>
+	/// <param name="camera">Camera.</param>
 	/// <param name="minX">Minimum x.</param>
 	/// <param name="minZ">Minimum z.</param>
 	/// <param name="maxX">Max x.</param>
 	/// <param name="maxZ">Max z.</param>
 	/// <param name="movementSpeed">Movement speed.</param>
-	public FreeCamera(Transform transform, int minX, int minZ, int maxX, int maxZ, float movementSpeed)
+	public FreeCamera(CameraBase camera, int minX, int minZ, int maxX, int maxZ, float movementSpeed) : base(camera)
 	{
-		this.transform = transform;
+		this.transform = camera.getCameraGameObject().transform;
 		this.minX = minX;
 		this.maxX = maxX;
 		this.minZ = minZ;

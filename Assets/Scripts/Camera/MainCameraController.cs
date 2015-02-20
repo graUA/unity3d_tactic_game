@@ -58,16 +58,11 @@ public class MainCameraController : MonoBehaviour
 	void Start() 
 	{
 		/// RTS camera init
-		CameraComponent camera = new CameraComponent(transform);
-		FreeCamera freeCamera = new FreeCamera(transform, minX, minZ, maxX, maxZ, movementSpeed);
-		ZoomCamera zoomCamera = new ZoomCamera(transform, zoomMin, zoomMax, zoomSpeed);
-		RotateCamera rotateCamera = new RotateCamera(transform, rotateSpeed);
-		CameraSelectionFrame cameraSelect = new CameraSelectionFrame(selection_frame);
-
-		freeCamera.SetComponent(camera);
-		zoomCamera.SetComponent(freeCamera);
-		rotateCamera.SetComponent(zoomCamera);
-		cameraSelect.SetComponent(rotateCamera);
+		CameraComponent camera = new CameraComponent(this.gameObject);
+		FreeCamera freeCamera = new FreeCamera(camera, minX, minZ, maxX, maxZ, movementSpeed);
+		ZoomCamera zoomCamera = new ZoomCamera(freeCamera, zoomMin, zoomMax, zoomSpeed);
+		RotateCamera rotateCamera = new RotateCamera(zoomCamera, rotateSpeed);
+		CameraSelectionFrame cameraSelect = new CameraSelectionFrame(rotateCamera, selection_frame);
 
 		rtsCamera = cameraSelect;
 		followCamera = rotateCamera;

@@ -32,7 +32,7 @@ public class CameraSelectionFrame : CameraDecorator
 	/// Initializes a new instance of the <see cref="CameraSelectionFrame"/> class.
 	/// </summary>
 	/// <param name="selectionFrame">Selection frame.</param>
-	public CameraSelectionFrame(Texture2D selectionFrame)
+	public CameraSelectionFrame(CameraBase camera, Texture2D selectionFrame) : base(camera)
 	{
 		this.selectionFrame = selectionFrame;
 	}

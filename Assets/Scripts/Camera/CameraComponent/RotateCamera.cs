@@ -21,11 +21,11 @@ public class RotateCamera : CameraDecorator
 	/// <summary>
 	/// Initializes a new instance of the <see cref="RotateCamera"/> class.
 	/// </summary>
-	/// <param name="transform">Transform.</param>
+	/// <param name="camera">Camera.</param>
 	/// <param name="rotateSpeed">Rotate speed.</param>
-	public RotateCamera(Transform transform, float rotateSpeed)
+	public RotateCamera(CameraBase camera, float rotateSpeed) : base(camera)
 	{
-		this.transform = transform;
+		this.transform = camera.getCameraGameObject().transform;
 		this.rotateSpeed = rotateSpeed;
 	}
 

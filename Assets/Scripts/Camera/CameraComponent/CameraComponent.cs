@@ -4,17 +4,26 @@ using System.Collections;
 public class CameraComponent : CameraBase
 {
 	/// <summary>
-	/// The transform.
+	/// The camera game object.
 	/// </summary>
-	private readonly Transform transform;
+	private GameObject cameraGameObject;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="CameraComponent"/> class.
 	/// </summary>
-	/// <param name="transform">Transform.</param>
-	public CameraComponent(Transform transform) 
+	/// <param name="cameraGameObject">Camera game object.</param>
+	public CameraComponent(GameObject cameraGameObject)
 	{
-		this.transform = transform;
+		this.cameraGameObject = cameraGameObject;
+	}
+
+	/// <summary>
+	/// Gets the camera target.
+	/// </summary>
+	/// <returns>The camera target.</returns>
+	public override GameObject getCameraGameObject()
+	{
+		return cameraGameObject;
 	}
 
 	/// <summary>
