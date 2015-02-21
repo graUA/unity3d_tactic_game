@@ -6,7 +6,7 @@ public class RotateCamera : CameraDecorator
 	/// <summary>
 	/// The transform.
 	/// </summary>
-	private readonly Transform transform;
+	private Transform transform;
 
 	/// <summary>
 	/// The mouse X position for rotation.

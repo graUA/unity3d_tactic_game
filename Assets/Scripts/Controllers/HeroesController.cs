@@ -9,12 +9,12 @@ public class HeroesController : MonoBehaviour
 	/// <summary>
 	/// Delegate for on camera followed event
 	/// </summary>
-	public delegate void CameraFollowMode(GameObject target);
+	public delegate void FollowMode(GameObject target);
 
 	/// <summary>
 	/// Occurs when on camera followed.
 	/// </summary>
-	public static event CameraFollowMode onFollowCamera;
+	public static event FollowMode onFollow;
 
 	/// <summary>
 	/// The heroes.
@@ -94,9 +94,9 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void SetUpFollowMode()
 	{
-		if (onFollowCamera != null && selectedHeroes.Count > 0)
+		if (onFollow != null && selectedHeroes.Count > 0)
 		{
-			onFollowCamera(selectedHeroes[0].gameObject);
+			onFollow(selectedHeroes[0].gameObject);
 		}
 	}
 
@@ -108,9 +108,9 @@ public class HeroesController : MonoBehaviour
         foreach (Hero hero in heroes)
         {
             Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
-            camPos.y = CameraSelectionFrame.InvertMouseY(camPos.y);
+            camPos.y = SelectionFrameCamera.InvertMouseY(camPos.y);
 
-			if (CameraSelectionFrame.selection.Contains(camPos, true))
+			if (SelectionFrameCamera.selection.Contains(camPos, true))
             {
                 AddNewHero(hero);
             }

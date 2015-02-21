@@ -46,11 +46,9 @@ public class MainCameraController : MonoBehaviour
 	/// <summary>
 	/// The follow camera.
 	/// </summary>
-	private CameraBase followCamera;
+	private FollowCamera followCamera;
 
 	private static GameObject followTarget = null;
-
-	private static bool hasFollowed = false;
 
 	/// <summary>
 	/// Start this instance.
@@ -59,13 +57,13 @@ public class MainCameraController : MonoBehaviour
 	{
 		/// RTS camera init
 		CameraComponent camera = new CameraComponent(this.gameObject);
-		FreeCamera freeCamera = new FreeCamera(camera, minX, minZ, maxX, maxZ, movementSpeed);
-		ZoomCamera zoomCamera = new ZoomCamera(freeCamera, zoomMin, zoomMax, zoomSpeed);
+		ZoomCamera zoomCamera = new ZoomCamera(camera, zoomMin, zoomMax, zoomSpeed);
 		RotateCamera rotateCamera = new RotateCamera(zoomCamera, rotateSpeed);
-		CameraSelectionFrame cameraSelect = new CameraSelectionFrame(rotateCamera, selection_frame);
+		FreeCamera freeCamera = new FreeCamera(rotateCamera, minX, minZ, maxX, maxZ, movementSpeed);
+		rtsCamera = new SelectionFrameCamera(freeCamera, selection_frame);
 
-		rtsCamera = cameraSelect;
-		followCamera = rotateCamera;
+		/// RTS follow camera init
+		followCamera = new FollowCamera(rotateCamera);
 
 		currentCamera = rtsCamera;
 	}
@@ -99,7 +97,7 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		HeroesController.onFollowCamera += OnFollowCamera;
+		HeroesController.onFollow += OnFollowCamera;
 	}
 
 	/// <summary>
@@ -107,7 +105,7 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnDisable()
 	{
-		HeroesController.onFollowCamera -= OnFollowCamera;
+		HeroesController.onFollow -= OnFollowCamera;
 	}
 
 	/// <summary>
@@ -115,37 +113,7 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnFollowCamera(GameObject target)
 	{
+		followCamera.SetFollowTarget(target);
 		currentCamera = followCamera;
-	}
-
-	// TODO: Move to follow camera component
-	public static void SetFollowCamera(GameObject target)
-	{
-		hasFollowed = true;
-		followTarget = target;
-	}
-
-	private static void RemoveFollowCamera()
-	{
-		hasFollowed = false;
-		followTarget = null;
-	}
-
-	private void FollowCamera()
-	{
-		if (followTarget != null)
-		{
-			Vector3 targetPos = followTarget.transform.position;
-		
-			transform.position = new Vector3(
-				(targetPos.x + transform.position.x) / 2,
-				transform.position.y,
-				targetPos.z
-			);
-
-			// Debug.Log(targetPos.z + "----" + transform.position.y);
-			// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
-			// transform.position = followTarget.transform.position + ();
-		}
 	}
 }
