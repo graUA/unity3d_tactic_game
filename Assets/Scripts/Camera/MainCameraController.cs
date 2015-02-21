@@ -48,8 +48,6 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	private FollowCamera followCamera;
 
-	private static GameObject followTarget = null;
-
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
@@ -97,7 +95,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		HeroesController.onFollow += OnFollowCamera;
+		HeroesController.onFollowCameraMode += OnFollowCamera;
+		HeroesController.onFreeCameraMode += OnFreeCamera;
 	}
 
 	/// <summary>
@@ -105,7 +104,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnDisable()
 	{
-		HeroesController.onFollow -= OnFollowCamera;
+		HeroesController.onFollowCameraMode -= OnFollowCamera;
+		HeroesController.onFreeCameraMode -= OnFreeCamera;
 	}
 
 	/// <summary>
@@ -115,5 +115,13 @@ public class MainCameraController : MonoBehaviour
 	{
 		followCamera.SetFollowTarget(target);
 		currentCamera = followCamera;
+	}
+
+	/// <summary>
+	/// Raises the free camera event.
+	/// </summary>
+	void OnFreeCamera()
+	{
+		currentCamera = rtsCamera;
 	}
 }
