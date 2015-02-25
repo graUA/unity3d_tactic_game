@@ -85,7 +85,7 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void Update () 
 	{
-		if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift))
+		if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift) && !isFollowMode)
 		{
 			SelectHero();
 			SelectHeroBySelectionFrame();

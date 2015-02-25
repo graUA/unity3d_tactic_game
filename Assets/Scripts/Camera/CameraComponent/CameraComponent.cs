@@ -39,13 +39,5 @@ public class CameraComponent : CameraBase
 	/// <summary>
 	/// Raises the GUI event.
 	/// </summary>
-	public override void OnGUI(){}
-
-	/// <summary>
-	/// Cameras to start point.
-	/// </summary>
-	public void CameraToStartPoint()
-	{
-		// Move camera to start point
-	}
+	public override void OnGUI(){}	
 }
