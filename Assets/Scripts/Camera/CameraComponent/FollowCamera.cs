@@ -50,9 +50,9 @@ public class FollowCamera : CameraDecorator
 		transform.position = new Vector3(
 			(targetPos.x + transform.position.x) / 2,
 			transform.position.y,
-			targetPos.z);
+			targetPos.z - transform.position.y);
 		
-		// Debug.Log(targetPos.z + "----" + transform.position.y);
+		Debug.Log(targetPos.z + "----" + transform.position.y);
 		// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
 		// transform.position = followTarget.transform.position + ();
 	}
