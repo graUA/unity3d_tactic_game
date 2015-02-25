@@ -34,11 +34,6 @@ public class MainCameraController : MonoBehaviour
 	public Texture2D selection_frame = null;
 
 	/// <summary>
-	/// The current camera.
-	/// </summary>
-	private CameraBase currentCamera;
-
-	/// <summary>
 	/// The rts camera.
 	/// </summary>
 	private CameraBase rtsCamera;
@@ -47,6 +42,11 @@ public class MainCameraController : MonoBehaviour
 	/// The follow camera.
 	/// </summary>
 	private FollowCamera followCamera;
+
+	/// <summary>
+	/// The current camera.
+	/// </summary>
+	private static CameraBase currentCamera;
 
 	/// <summary>
 	/// Start this instance.
@@ -95,8 +95,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		HeroesController.onFollowCameraMode += OnFollowCamera;
-		HeroesController.onFreeCameraMode += OnFreeCamera;
+		HeroesController.onFollowMode += OnFollowCamera;
+		HeroesController.onFreeMode += OnFreeCamera;
 	}
 
 	/// <summary>
@@ -104,8 +104,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnDisable()
 	{
-		HeroesController.onFollowCameraMode -= OnFollowCamera;
-		HeroesController.onFreeCameraMode -= OnFreeCamera;
+		HeroesController.onFollowMode -= OnFollowCamera;
+		HeroesController.onFreeMode -= OnFreeCamera;
 	}
 
 	/// <summary>

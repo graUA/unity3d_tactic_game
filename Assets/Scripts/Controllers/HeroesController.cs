@@ -42,29 +42,34 @@ public class HeroesController : MonoBehaviour
 	private UIController uiCtr;
 
 	/// <summary>
-	/// Delegate for on camera free event
+	/// Delegate for on free event
 	/// </summary>
-	public delegate void FreeCameraMode();
+	public delegate void FreeMode();
 	
 	/// <summary>
-	/// Delegate for on camera followed event
+	/// Delegate for on followed event
 	/// </summary>
-	public delegate void FollowCameraMode(GameObject target);
+	public delegate void FollowMode(GameObject target);
 	
 	/// <summary>
-	/// Occurs when on camera followed.
+	/// Occurs when on follow mode.
 	/// </summary>
-	public static event FollowCameraMode onFollowCameraMode;
+	public static event FollowMode onFollowMode;
 	
 	/// <summary>
-	/// Occurs when on free camera mode.
+	/// Occurs when on free mode.
 	/// </summary>
-	public static event FreeCameraMode onFreeCameraMode;
+	public static event FreeMode onFreeMode;
+	
+	/// <summary>
+	/// The is follow mode presented.
+	/// </summary>
+	private bool isFollowMode = false;
 
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
-	void Start () 
+	void Start() 
 	{
         foreach (GameObject hero in GameObject.FindGameObjectsWithTag(Tags.heroes))
         {
@@ -104,9 +109,15 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void SetUpCameraMode()
 	{
-		if (onFollowCameraMode != null && selectedHeroes.Count > 0)
+		if (onFollowMode != null && selectedHeroes.Count > 0 && !isFollowMode)
 		{
-			onFollowCameraMode(selectedHeroes[0].gameObject);
+			onFollowMode(selectedHeroes[0].gameObject);
+			isFollowMode = true;
+		}
+		else if (onFreeMode != null)
+		{
+			onFreeMode();
+			isFollowMode = false;
 		}
 	}
 
