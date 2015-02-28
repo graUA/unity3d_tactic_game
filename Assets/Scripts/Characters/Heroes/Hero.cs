@@ -3,30 +3,28 @@ using System.Collections;
 
 using Global;
 
-public class Hero : MonoBehaviour
+public class Hero : Character
 {
 	public string Name = "Scout";
 
 	public float speed = 7f;                    // Speed at which the character moves
 
 	private float characterSpeed;
-	private Animator anim;                      // Animator to Anim converter
 	private Transform myTransform;              // this transform
 	private Vector3 destinationPosition;        // The destination Point
 	private float destinationDistance;          // The distance between myTransform and destinationPosition
 
 	private SpriteRenderer selectCircle;
 	private float kHeroRotationSpeed = 200f;
-	private NavMeshAgent navAgent;
 	
 	void Awake()
 	{
+		this.Init();
+
 		characterSpeed = 0f;
-		anim = GetComponent<Animator>();
 		myTransform = transform;                                  // sets myTransform to this GameObject.transform
 		destinationPosition = myTransform.position;
 		selectCircle = GetComponentInChildren<SpriteRenderer> (); // hero select circle sprite
-		navAgent = GetComponent<NavMeshAgent>();
 	}
 
 	void FixedUpdate()

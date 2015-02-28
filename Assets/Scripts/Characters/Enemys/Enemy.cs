@@ -3,37 +3,22 @@ using System.Collections;
 
 using Global;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Character
 {
 	
 	public float fieldOfViewAngle;
 	public float speed;
 	public float rotatonSpeed = 10f;
-	public GameObject weaponDeploy;
-	public WeaponType curWeaponType = WeaponType.Revolver;
 
-	protected NavMeshAgent navAgent;
 	protected EnemyBehavior enemyBehavior;
 	protected SphereCollider col;
-	protected Animator anim;
-	protected GameObject GM;				// Game Manager Object
-	protected EnemyController EC;         // EnemyController Class
-	protected GameObject curWeapon;
-	protected Weapon GUN;
 	private float maxAngleToTarget = 10f;
 
 	public void Awake()
 	{
-		navAgent = GetComponent<NavMeshAgent>();
+		this.Init(); // Init variables;
+
 		col = GetComponent<SphereCollider>();
-		anim = GetComponent<Animator>();
-		GM = GameObject.FindGameObjectWithTag(Tags.gameManager);
-		EC = GM.GetComponent<EnemyController>();
-
-		curWeapon = GM.GetComponent<WeaponFactory>().getWeapon(curWeaponType, weaponDeploy.transform);
-		curWeapon.transform.parent = weaponDeploy.transform;
-		GUN = curWeapon.GetComponent<Weapon>();
-
 	}
 
 	void Update()
