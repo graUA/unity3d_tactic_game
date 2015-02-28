@@ -35,7 +35,7 @@ public class RotateCamera : CameraDecorator
 	public override void Update()
 	{
 		base.Update();
-		RotateCameraByMouse();
+		Rotate();
 	}
 
 	/// <summary>
@@ -48,9 +48,9 @@ public class RotateCamera : CameraDecorator
 	}
 
 	/// <summary>
-	/// Rotates the camera by mouse.
+	/// Rotate this instance.
 	/// </summary>
-	private void RotateCameraByMouse()
+	private void Rotate()
 	{
 		if (Input.GetMouseButton(2))
 		{

@@ -39,13 +39,13 @@ public class ZoomCamera : CameraDecorator
 	public override void Update()
 	{
 		base.Update();
-		ZoomCameraByScrollWheel();
+		Zoom();
 	}
 
 	/// <summary>
-	/// Zooms the camera by scroll wheel.
+	/// Zoom this instance.
 	/// </summary>
-	private void ZoomCameraByScrollWheel()
+	private void Zoom()
 	{
 		if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
 		{
