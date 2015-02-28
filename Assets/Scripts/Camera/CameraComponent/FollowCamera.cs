@@ -46,13 +46,13 @@ public class FollowCamera : CameraDecorator
 	private void FollowTarget()
 	{
 		Vector3 targetPos = target.transform.position;
-		
-//		transform.position = new Vector3(
-//			(targetPos.x + transform.position.x) / 2,
-//			transform.position.y,
-//			targetPos.z - transform.position.y);
+		Vector3 distance = transform.position - target.transform.position;
 
-		Debug.Log(targetPos.z + "----" + transform.position.y);
+		//transform.position = new Vector3(targetPos.x, transform.position.y, target.transform.position.z);
+
+		Debug.Log("disatnce=>" + distance);
+		Debug.Log("camera z=>" + transform.position.z);
+		Debug.Log("target z=>" + target.transform.position.z);
 		// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
 		// transform.position = followTarget.transform.position + ();
 	}

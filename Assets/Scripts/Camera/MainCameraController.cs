@@ -66,7 +66,7 @@ public class MainCameraController : MonoBehaviour
 		rtsCamera = new SelectionFrameCamera(freeCamera, selection_frame);
 
 		/// Follow camera init
-		orbitalCamera = new OrbitalCamera(camera, rotateSpeed);
+		orbitalCamera = new OrbitalCamera(zoomCamera, rotateSpeed);
 		followCamera = new FollowCamera(orbitalCamera);
 
 		currentCamera = rtsCamera;
