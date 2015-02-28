@@ -11,9 +11,25 @@ public class OrbitalCamera : CameraDecorator
 	/// </summary>
 	private Transform transform;
 
-	public OrbitalCamera(CameraBase camera) : base(camera)
+	/// <summary>
+	/// The target.
+	/// </summary>
+	private GameObject target;
+
+	/// <summary>
+	/// The mouse X position for rotation.
+	/// </summary>
+	private float mouseXPositionForRotation;
+	
+	/// <summary>
+	/// The rotate speed.
+	/// </summary>
+	private float rotateSpeed;
+
+	public OrbitalCamera(CameraBase camera, float rotateSpeed) : base(camera)
 	{
 		this.transform = camera.getCameraGameObject().transform;
+		this.rotateSpeed = rotateSpeed;
 	}
 	
 	/// <summary>
@@ -22,6 +38,7 @@ public class OrbitalCamera : CameraDecorator
 	public override void Update()
 	{
 		base.Update();
+		if (target != null) Rotate();
 	}
 	
 	/// <summary>
@@ -30,6 +47,19 @@ public class OrbitalCamera : CameraDecorator
 	public override void LateUpdate()
 	{
 		base.LateUpdate();
+	}
+
+	public void SetTarget(GameObject target)
+	{
+		this.target = target;
+	}
+
+	private void Rotate()
+	{
+		if (Input.GetMouseButton(2))
+		{
+			transform.RotateAround(Vector3.zero, Vector3.up, 20 * Time.deltaTime);
+		}
 	}
 }
 

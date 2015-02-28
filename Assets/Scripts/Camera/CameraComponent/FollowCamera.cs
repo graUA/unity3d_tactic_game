@@ -35,7 +35,7 @@ public class FollowCamera : CameraDecorator
 	/// Sets the follow target.
 	/// </summary>
 	/// <param name="target">Target.</param>
-	public void SetFollowTarget(GameObject target)
+	public void SetTarget(GameObject target)
 	{
 		this.target = target;
 	}
@@ -47,11 +47,11 @@ public class FollowCamera : CameraDecorator
 	{
 		Vector3 targetPos = target.transform.position;
 		
-		transform.position = new Vector3(
-			(targetPos.x + transform.position.x) / 2,
-			transform.position.y,
-			targetPos.z - transform.position.y);
-		
+//		transform.position = new Vector3(
+//			(targetPos.x + transform.position.x) / 2,
+//			transform.position.y,
+//			targetPos.z - transform.position.y);
+
 		Debug.Log(targetPos.z + "----" + transform.position.y);
 		// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
 		// transform.position = followTarget.transform.position + ();

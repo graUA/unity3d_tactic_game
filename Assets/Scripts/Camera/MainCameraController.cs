@@ -44,6 +44,11 @@ public class MainCameraController : MonoBehaviour
 	private FollowCamera followCamera;
 
 	/// <summary>
+	/// The orbital camera.
+	/// </summary>
+	private OrbitalCamera orbitalCamera;
+
+	/// <summary>
 	/// The current camera.
 	/// </summary>
 	private static CameraBase currentCamera;
@@ -60,8 +65,8 @@ public class MainCameraController : MonoBehaviour
 		FreeCamera freeCamera = new FreeCamera(rotateCamera, minX, minZ, maxX, maxZ, movementSpeed);
 		rtsCamera = new SelectionFrameCamera(freeCamera, selection_frame);
 
-		/// RTS follow camera init
-		OrbitalCamera orbitalCamera = new OrbitalCamera(camera);
+		/// Follow camera init
+		orbitalCamera = new OrbitalCamera(camera, rotateSpeed);
 		followCamera = new FollowCamera(orbitalCamera);
 
 		currentCamera = rtsCamera;
@@ -114,7 +119,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnFollowCamera(GameObject target)
 	{
-		followCamera.SetFollowTarget(target);
+		followCamera.SetTarget(target);
+		orbitalCamera.SetTarget(target);
 		currentCamera = followCamera;
 	}
 
