@@ -14,6 +14,11 @@ public class FollowCamera : CameraDecorator
 	private GameObject target;
 
 	/// <summary>
+	/// The old target position.
+	/// </summary>
+	private Vector3 oldTargetPosition;
+
+	/// <summary>
 	/// Initializes a new instance of the <see cref="FollowCamera"/> class.
 	/// </summary>
 	/// <param name="camera">Camera.</param>
@@ -30,6 +35,15 @@ public class FollowCamera : CameraDecorator
 		base.Update();
 		if (target != null) FollowTarget();
 	}
+	
+	/// <summary>
+	/// Lates the update.
+	/// </summary>
+	public override void LateUpdate()
+	{
+		base.LateUpdate();
+		if (target != null) oldTargetPosition = target.transform.position;
+	}
 
 	/// <summary>
 	/// Sets the follow target.
@@ -40,24 +54,31 @@ public class FollowCamera : CameraDecorator
 		this.target = target;
 	}
 
+	public void CenterCameraOnTarget()
+	{
+		if (target != null)
+		{
+			transform.position = target.transform.position;
+		}
+	}
+
 	/// <summary>
 	/// Follows the target.
 	/// </summary>
 	private void FollowTarget()
 	{
-		Vector3 targetPos = target.transform.position;
-		Vector3 distance = targetPos - transform.position;
+		Vector3 distance = target.transform.position - oldTargetPosition;
 
-		//transform.Translate(Vector3.forward * target.rigidbody.velocity.magnitude * Time.deltaTime, target.transform);
+		//transform.Translate(Vector3.forward * distance.magnitude * Time.deltaTime, target.transform);
 		//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5.0f);
-		//transform.position = targetPos + distance;
+		transform.position += distance;
 
 		//Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
 		//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5.0f);
 
 		Debug.Log("camera z=>" + transform.position.z);
 		Debug.Log("target z=>" + target.transform.position.z);
-		Debug.Log("distance z=>" + distance);
+		Debug.Log("distance=>" + distance);
 		// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
 		// transform.position = followTarget.transform.position + ();
 	}
