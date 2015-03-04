@@ -52,14 +52,17 @@ public class FollowCamera : CameraDecorator
 	public void SetTarget(GameObject target)
 	{
 		this.target = target;
+		CenterCameraOnTarget();
 	}
 
-	public void CenterCameraOnTarget()
+	private void CenterCameraOnTarget()
 	{
-		if (target != null)
-		{
-			transform.position = target.transform.position;
-		}
+		// TODO: real centerize
+//		Vector3 targetPosition = target.transform.position;
+//		targetPosition.y = transform.position.y;
+//		targetPosition.z = targetPosition.z - transform.position.y;
+//
+//		transform.position = targetPosition;
 	}
 
 	/// <summary>

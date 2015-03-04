@@ -120,8 +120,8 @@ public class MainCameraController : MonoBehaviour
 	void OnFollowCamera(GameObject target)
 	{
 		followCamera.SetTarget(target);
-		followCamera.CenterCameraOnTarget();
 		orbitalCamera.SetTarget(target);
+
 		currentCamera = followCamera;
 	}
 
