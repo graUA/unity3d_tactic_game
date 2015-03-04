@@ -34,11 +34,6 @@ public class MainCameraController : MonoBehaviour
 	public Texture2D selection_frame = null;
 
 	/// <summary>
-	/// The current camera.
-	/// </summary>
-	private CameraBase currentCamera;
-
-	/// <summary>
 	/// The rts camera.
 	/// </summary>
 	private CameraBase rtsCamera;
@@ -46,11 +41,17 @@ public class MainCameraController : MonoBehaviour
 	/// <summary>
 	/// The follow camera.
 	/// </summary>
-	private CameraBase followCamera;
+	private FollowCamera followCamera;
 
-	private static GameObject followTarget = null;
+	/// <summary>
+	/// The orbital camera.
+	/// </summary>
+	private OrbitalCamera orbitalCamera;
 
-	private static bool hasFollowed = false;
+	/// <summary>
+	/// The current camera.
+	/// </summary>
+	private static CameraBase currentCamera;
 
 	/// <summary>
 	/// Start this instance.
@@ -58,19 +59,15 @@ public class MainCameraController : MonoBehaviour
 	void Start() 
 	{
 		/// RTS camera init
-		CameraComponent camera = new CameraComponent(transform);
-		FreeCamera freeCamera = new FreeCamera(transform, minX, minZ, maxX, maxZ, movementSpeed);
-		ZoomCamera zoomCamera = new ZoomCamera(transform, zoomMin, zoomMax, zoomSpeed);
-		RotateCamera rotateCamera = new RotateCamera(transform, rotateSpeed);
-		CameraSelectionFrame cameraSelect = new CameraSelectionFrame(selection_frame);
+		CameraComponent camera = new CameraComponent(this.gameObject);
+		ZoomCamera zoomCamera = new ZoomCamera(camera, zoomMin, zoomMax, zoomSpeed);
+		RotateCamera rotateCamera = new RotateCamera(zoomCamera, rotateSpeed);
+		FreeCamera freeCamera = new FreeCamera(rotateCamera, minX, minZ, maxX, maxZ, movementSpeed);
+		rtsCamera = new SelectionFrameCamera(freeCamera, selection_frame);
 
-		freeCamera.SetComponent(camera);
-		zoomCamera.SetComponent(freeCamera);
-		rotateCamera.SetComponent(zoomCamera);
-		cameraSelect.SetComponent(rotateCamera);
-
-		rtsCamera = cameraSelect;
-		followCamera = rotateCamera;
+		/// Follow camera init
+		orbitalCamera = new OrbitalCamera(zoomCamera, rotateSpeed);
+		followCamera = new FollowCamera(orbitalCamera);
 
 		currentCamera = rtsCamera;
 	}
@@ -104,7 +101,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnEnable()
 	{
-		HeroesController.onFollowCamera += OnFollowCamera;
+		HeroesController.onFollowMode += OnFollowCamera;
+		HeroesController.onFreeMode += OnFreeCamera;
 	}
 
 	/// <summary>
@@ -112,7 +110,8 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnDisable()
 	{
-		HeroesController.onFollowCamera -= OnFollowCamera;
+		HeroesController.onFollowMode -= OnFollowCamera;
+		HeroesController.onFreeMode -= OnFreeCamera;
 	}
 
 	/// <summary>
@@ -120,37 +119,17 @@ public class MainCameraController : MonoBehaviour
 	/// </summary>
 	void OnFollowCamera(GameObject target)
 	{
+		followCamera.SetTarget(target);
+		orbitalCamera.SetTarget(target);
+
 		currentCamera = followCamera;
 	}
 
-	// TODO: Move to follow camera component
-	public static void SetFollowCamera(GameObject target)
+	/// <summary>
+	/// Raises the free camera event.
+	/// </summary>
+	void OnFreeCamera()
 	{
-		hasFollowed = true;
-		followTarget = target;
-	}
-
-	private static void RemoveFollowCamera()
-	{
-		hasFollowed = false;
-		followTarget = null;
-	}
-
-	private void FollowCamera()
-	{
-		if (followTarget != null)
-		{
-			Vector3 targetPos = followTarget.transform.position;
-		
-			transform.position = new Vector3(
-				(targetPos.x + transform.position.x) / 2,
-				transform.position.y,
-				targetPos.z
-			);
-
-			// Debug.Log(targetPos.z + "----" + transform.position.y);
-			// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
-			// transform.position = followTarget.transform.position + ();
-		}
+		currentCamera = rtsCamera;
 	}
 }

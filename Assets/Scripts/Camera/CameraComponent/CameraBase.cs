@@ -4,6 +4,12 @@ using System.Collections;
 public abstract class CameraBase
 {
 	/// <summary>
+	/// Gets the camera game object.
+	/// </summary>
+	/// <returns>The camera game object.</returns>
+	public abstract GameObject getCameraGameObject();
+
+	/// <summary>
 	/// Update this instance.
 	/// </summary>
 	public abstract void Update();

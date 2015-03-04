@@ -7,24 +7,14 @@ using Global;
 public class HeroesController : MonoBehaviour 
 {
 	/// <summary>
-	/// Delegate for on camera followed event
-	/// </summary>
-	public delegate void CameraFollowMode(GameObject target);
-
-	/// <summary>
-	/// Occurs when on camera followed.
-	/// </summary>
-	public static event CameraFollowMode onFollowCamera;
-
-	/// <summary>
 	/// The heroes.
 	/// </summary>
-    List<Hero> heroes = new List<Hero>();
+    private List<Hero> heroes = new List<Hero>();
 
 	/// <summary>
 	/// The selected heroes.
 	/// </summary>
-	List<Hero> selectedHeroes = new List<Hero>();
+	private List<Hero> selectedHeroes = new List<Hero>();
 
 	/// <summary>
 	/// The selecteble mask.
@@ -39,29 +29,54 @@ public class HeroesController : MonoBehaviour
 	/// <summary>
 	/// The shoot hit.
 	/// </summary>
-	RaycastHit shootHit;
+	private RaycastHit shootHit;
 
 	/// <summary>
 	/// The ray.
 	/// </summary>
-	Ray ray;
+	private Ray ray;
 
 	/// <summary>
 	/// The user interface ctr.
 	/// </summary>
-	UIController uiCtr;
+	private UIController uiCtr;
+
+	/// <summary>
+	/// Delegate for on free event
+	/// </summary>
+	public delegate void FreeMode();
+	
+	/// <summary>
+	/// Delegate for on followed event
+	/// </summary>
+	public delegate void FollowMode(GameObject target);
+	
+	/// <summary>
+	/// Occurs when on follow mode.
+	/// </summary>
+	public static event FollowMode onFollowMode;
+	
+	/// <summary>
+	/// Occurs when on free mode.
+	/// </summary>
+	public static event FreeMode onFreeMode;
+	
+	/// <summary>
+	/// The is follow mode presented.
+	/// </summary>
+	private bool isFollowMode = false;
 
 	/// <summary>
 	/// Start this instance.
 	/// </summary>
-	void Start () 
+	void Start() 
 	{
         foreach (GameObject hero in GameObject.FindGameObjectsWithTag(Tags.heroes))
         {
             heroes.Add(hero.GetComponent<Hero>());
         }
 
-		selectebleMask = LayerMask.GetMask (Layers.heroes);
+		selectebleMask = LayerMask.GetMask(Layers.heroes);
 		uiCtr = GetComponent<UIController>();
 	}
 	
@@ -70,7 +85,7 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void Update () 
 	{
-		if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift))
+		if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift) && !isFollowMode)
 		{
 			SelectHero();
 			SelectHeroBySelectionFrame();
@@ -85,18 +100,24 @@ public class HeroesController : MonoBehaviour
 		}
 		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.F))
 		{
-			SetUpFollowMode();
+			SetUpCameraMode();
 		}
 	}
 
 	/// <summary>
-	/// Sets up follow mode.
+	/// Sets up camera mode.
 	/// </summary>
-	void SetUpFollowMode()
+	void SetUpCameraMode()
 	{
-		if (onFollowCamera != null && selectedHeroes.Count > 0)
+		if (onFollowMode != null && selectedHeroes.Count > 0 && !isFollowMode)
 		{
-			onFollowCamera(selectedHeroes[0].gameObject);
+			onFollowMode(selectedHeroes[0].gameObject);
+			isFollowMode = true;
+		}
+		else if (onFreeMode != null)
+		{
+			onFreeMode();
+			isFollowMode = false;
 		}
 	}
 
@@ -108,9 +129,9 @@ public class HeroesController : MonoBehaviour
         foreach (Hero hero in heroes)
         {
             Vector3 camPos = Camera.main.WorldToScreenPoint(hero.transform.position);
-            camPos.y = CameraSelectionFrame.InvertMouseY(camPos.y);
+            camPos.y = SelectionFrameCamera.InvertMouseY(camPos.y);
 
-			if (CameraSelectionFrame.selection.Contains(camPos, true))
+			if (SelectionFrameCamera.selection.Contains(camPos, true))
             {
                 AddNewHero(hero);
             }
@@ -186,7 +207,7 @@ public class HeroesController : MonoBehaviour
 		{
 			hero.UnselectHero();
 		}
-		selectedHeroes = new List<Hero>();
+		selectedHeroes.Clear();
 	}
 
 	#endregion

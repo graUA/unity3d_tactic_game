@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class CameraSelectionFrame : CameraDecorator
+public class SelectionFrameCamera : CameraDecorator
 {
 	/// <summary>
 	/// The selection.
@@ -32,7 +32,7 @@ public class CameraSelectionFrame : CameraDecorator
 	/// Initializes a new instance of the <see cref="CameraSelectionFrame"/> class.
 	/// </summary>
 	/// <param name="selectionFrame">Selection frame.</param>
-	public CameraSelectionFrame(Texture2D selectionFrame)
+	public SelectionFrameCamera(CameraBase camera, Texture2D selectionFrame) : base(camera)
 	{
 		this.selectionFrame = selectionFrame;
 	}
