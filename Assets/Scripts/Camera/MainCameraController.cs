@@ -29,6 +29,11 @@ public class MainCameraController : MonoBehaviour
 	public float rotateSpeed;
     
 	/// <summary>
+	/// The follow damp time.
+	/// </summary>
+	public float followDampTime;
+
+	/// <summary>
 	/// The selection_frame.
 	/// </summary>
 	public Texture2D selection_frame = null;
@@ -67,7 +72,7 @@ public class MainCameraController : MonoBehaviour
 
 		/// Follow camera init
 		orbitalCamera = new OrbitalCamera(zoomCamera, rotateSpeed);
-		followCamera = new FollowCamera(orbitalCamera);
+		followCamera = new FollowCamera(orbitalCamera, followDampTime);
 
 		currentCamera = rtsCamera;
 	}
