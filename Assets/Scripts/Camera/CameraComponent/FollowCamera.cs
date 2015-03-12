@@ -18,6 +18,9 @@ public class FollowCamera : CameraDecorator
 	/// </summary>
 	private Vector3 oldTargetPosition;
 
+	private Plane plane = new Plane(Vector3.up, Vector3.zero);
+	private Vector3 v3Center = new Vector3(0.5f, 0.5f, 0.0f);
+
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FollowCamera"/> class.
 	/// </summary>
@@ -55,14 +58,21 @@ public class FollowCamera : CameraDecorator
 		CenterCameraOnTarget();
 	}
 
+	/// <summary>
+	/// Centers the camera on target.
+	/// </summary>
 	private void CenterCameraOnTarget()
 	{
-		// TODO: real centerize
-//		Vector3 targetPosition = target.transform.position;
-//		targetPosition.y = transform.position.y;
-//		targetPosition.z = targetPosition.z - transform.position.y;
-//
-//		transform.position = targetPosition;
+		Ray ray = Camera.main.ViewportPointToRay(v3Center);
+		float fDist;
+
+		if (plane.Raycast(ray, out fDist))
+		{
+			Vector3 v3Hit = ray.GetPoint(fDist);
+			Vector3 v3Delta = target.transform.position - v3Hit;
+			Debug.DrawLine(transform.position, v3Delta, Color.green);
+			//transform.Translate(v3Delta);
+		}
 	}
 
 	/// <summary>
@@ -72,16 +82,18 @@ public class FollowCamera : CameraDecorator
 	{
 		Vector3 distance = target.transform.position - oldTargetPosition;
 
+		//transform.Translate((Vector3.forward + distance) * Time.deltaTime, target.transform);
 		//transform.Translate(Vector3.forward * distance.magnitude * Time.deltaTime, target.transform);
-		//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5.0f);
+		//transform.position = Vector3.Lerp(transform.position, transform.position + distance, Time.deltaTime * 5.0f);
 		transform.position += distance;
+		//transform.Translate(distance);
 
 		//Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
 		//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5.0f);
 
-		Debug.Log("camera z=>" + transform.position.z);
-		Debug.Log("target z=>" + target.transform.position.z);
-		Debug.Log("distance=>" + distance);
+//		Debug.Log("camera z=>" + transform.position.z);
+//		Debug.Log("target z=>" + target.transform.position.z);
+//		Debug.Log("distance=>" + distance);
 		// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
 		// transform.position = followTarget.transform.position + ();
 	}
