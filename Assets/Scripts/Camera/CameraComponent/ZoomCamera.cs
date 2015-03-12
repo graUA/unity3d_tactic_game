@@ -6,7 +6,7 @@ public class ZoomCamera : CameraDecorator
 	/// <summary>
 	/// The transform.
 	/// </summary>
-	private readonly Transform transform;
+	private Transform transform;
 
 	/// <summary>
 	/// Camera zooming limits.
@@ -21,13 +21,13 @@ public class ZoomCamera : CameraDecorator
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ZoomCamera"/> class.
 	/// </summary>
-	/// <param name="transform">Transform.</param>
+	/// <param name="camera">Camera.</param>
 	/// <param name="zoomMin">Zoom minimum.</param>
 	/// <param name="zoomMax">Zoom max.</param>
 	/// <param name="zoomSpeed">Zoom speed.</param>
-	public ZoomCamera(Transform transform, int zoomMin, int zoomMax, float zoomSpeed)
+	public ZoomCamera(CameraBase camera, int zoomMin, int zoomMax, float zoomSpeed) : base(camera)
 	{
-		this.transform = transform;
+		this.transform = camera.getCameraGameObject().transform;
 		this.zoomMin = zoomMin;
 		this.zoomMax = zoomMax;
 		this.zoomSpeed = zoomSpeed;
@@ -39,13 +39,13 @@ public class ZoomCamera : CameraDecorator
 	public override void Update()
 	{
 		base.Update();
-		ZoomCameraByScrollWheel();
+		Zoom();
 	}
 
 	/// <summary>
-	/// Zooms the camera by scroll wheel.
+	/// Zoom this instance.
 	/// </summary>
-	private void ZoomCameraByScrollWheel()
+	private void Zoom()
 	{
 		if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
 		{

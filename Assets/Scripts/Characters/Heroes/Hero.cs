@@ -69,7 +69,7 @@ public class Hero : Character
 
 	public void TakeDemage()
 	{
-		transform.rigidbody.AddForce(Vector3.back * 100, ForceMode.Impulse);
+		transform.GetComponent<Rigidbody>().AddForce(Vector3.back * 100, ForceMode.Impulse);
 	}
 
 	public void SelectHero()

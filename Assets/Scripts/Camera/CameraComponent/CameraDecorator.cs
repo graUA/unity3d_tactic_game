@@ -12,9 +12,18 @@ public class CameraDecorator : CameraBase
 	/// Sets the component.
 	/// </summary>
 	/// <param name="camera">Camera.</param>
-	public void SetComponent(CameraBase camera)
+	protected CameraDecorator(CameraBase camera)
 	{
 		this.camera = camera;
+	}
+
+	/// <summary>
+	/// Gets the camera game object.
+	/// </summary>
+	/// <returns>The camera game object.</returns>
+	public override GameObject getCameraGameObject()
+	{
+		return camera.getCameraGameObject();
 	}
 
 	/// <summary>
@@ -22,7 +31,7 @@ public class CameraDecorator : CameraBase
 	/// </summary>
 	public override void Update()
 	{
-		if (camera != null) camera.Update();
+		camera.Update();
 	}
 
 	/// <summary>
@@ -30,7 +39,7 @@ public class CameraDecorator : CameraBase
 	/// </summary>
 	public override void LateUpdate()
 	{
-		if (camera != null) camera.LateUpdate();
+		camera.LateUpdate();
 	}
 
 	/// <summary>
@@ -38,6 +47,6 @@ public class CameraDecorator : CameraBase
 	/// </summary>
 	public override void OnGUI()
 	{
-		if (camera != null) camera.OnGUI();
+		camera.OnGUI();
 	}
 }
