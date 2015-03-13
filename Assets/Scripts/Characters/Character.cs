@@ -5,8 +5,9 @@ using Global;
 
 public class Character : MonoBehaviour
 {
-	public GameObject weaponDeploy;
-	public Weapon.WeaponType curWeaponType = Weapon.WeaponType.None;
+	public GameObject weaponDeploy;	
+    public bool autoEquip = false;
+    public Weapon.WeaponType curWeaponType;
 
 	protected NavMeshAgent navAgent;
 	protected Animator anim;
@@ -21,8 +22,11 @@ public class Character : MonoBehaviour
 		anim = GetComponent<Animator>();
 		GM = GameObject.FindGameObjectWithTag(Tags.gameManager);
 		EC = GM.GetComponent<EnemyController>();
-		//
-		EquipWeapon(curWeaponType);
+        //
+        if (autoEquip)
+        {
+            EquipWeapon(curWeaponType);
+        }
 	}
 
 	public void AttackCharacter(GameObject hero)
@@ -51,12 +55,16 @@ public class Character : MonoBehaviour
 		}
 
 		curWeaponType = wType;
+        
+        if (curWeapon)
+        {
+            Destroy(curWeapon);
+        }
 
-		Destroy(curWeapon);
 		curWeapon = null;
 		GUN = null;
 
-		if (curWeaponType != Weapon.WeaponType.None)
+		if (curWeaponType != null)
 		{
 			curWeapon = GM.GetComponent<WeaponFactory>().getWeapon(curWeaponType, weaponDeploy.transform);
 			curWeapon.transform.parent = weaponDeploy.transform;

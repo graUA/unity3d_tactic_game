@@ -84,7 +84,7 @@ public class Enemy : Character
 	{
 		if (enemyBehavior.CanShotBeSuccess(hero.transform, transform, maxAngleToTarget))
 		{
-			GUN.Shoot();
+            ShootFromCurGun();
 		}
 	}
 

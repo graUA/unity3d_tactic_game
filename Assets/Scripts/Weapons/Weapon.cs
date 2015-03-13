@@ -5,7 +5,7 @@ using Global;
 
 public class Weapon : MonoBehaviour 
 {
-	public enum WeaponType {None, Revolver, Shotgun};
+	public enum WeaponType {Revolver, Shotgun};
 	public GameObject shotOutPoint;
 	public float shotDamage = 10f;
 	public int ammoCount = 10;
