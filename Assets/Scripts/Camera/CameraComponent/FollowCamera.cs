@@ -11,20 +11,26 @@ public class FollowCamera : CameraDecorator
 	/// <summary>
 	/// The target.
 	/// </summary>
-	private GameObject target;
+	private GameObject target = null;
 
 	/// <summary>
-	/// The old target position.
+	/// The damp time.
 	/// </summary>
-	private Vector3 oldTargetPosition;
+	private float dampTime;
 
+	/// <summary>
+	/// The velocity.
+	/// </summary>
+	private Vector3 velocity = Vector3.zero;
+	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="FollowCamera"/> class.
 	/// </summary>
 	/// <param name="camera">Camera.</param>
-	public FollowCamera(CameraBase camera) : base(camera)
+	public FollowCamera(CameraBase camera, float dampTime) : base(camera)
 	{
 		this.transform = camera.getCameraGameObject().transform;
+		this.dampTime = dampTime;
 	}
 
 	/// <summary>
@@ -35,15 +41,6 @@ public class FollowCamera : CameraDecorator
 		base.Update();
 		if (target != null) FollowTarget();
 	}
-	
-	/// <summary>
-	/// Lates the update.
-	/// </summary>
-	public override void LateUpdate()
-	{
-		base.LateUpdate();
-		if (target != null) oldTargetPosition = target.transform.position;
-	}
 
 	/// <summary>
 	/// Sets the follow target.
@@ -52,17 +49,6 @@ public class FollowCamera : CameraDecorator
 	public void SetTarget(GameObject target)
 	{
 		this.target = target;
-		CenterCameraOnTarget();
-	}
-
-	private void CenterCameraOnTarget()
-	{
-		// TODO: real centerize
-//		Vector3 targetPosition = target.transform.position;
-//		targetPosition.y = transform.position.y;
-//		targetPosition.z = targetPosition.z - transform.position.y;
-//
-//		transform.position = targetPosition;
 	}
 
 	/// <summary>
@@ -70,19 +56,14 @@ public class FollowCamera : CameraDecorator
 	/// </summary>
 	private void FollowTarget()
 	{
-		Vector3 distance = target.transform.position - oldTargetPosition;
+		Vector3 targetPos = target.transform.position;
+		Vector3 point = Camera.main.WorldToViewportPoint(targetPos);
+		Vector3 delta = targetPos - Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));
+		Vector3 destination = transform.position + delta;
 
-		//transform.Translate(Vector3.forward * distance.magnitude * Time.deltaTime, target.transform);
-		//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5.0f);
-		transform.position += distance;
+		// Old school Y-Axis for isometric camera
+		destination.y = transform.position.y;
 
-		//Vector3 targetPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-		//transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * 5.0f);
-
-		Debug.Log("camera z=>" + transform.position.z);
-		Debug.Log("target z=>" + target.transform.position.z);
-		Debug.Log("distance=>" + distance);
-		// transform.Translate(targetPos.x, transform.position.y, targetPos.z);
-		// transform.position = followTarget.transform.position + ();
+		transform.position = Vector3.SmoothDamp(transform.position, destination, ref velocity, dampTime);
 	}
 }
