@@ -5,8 +5,6 @@ namespace Global
 { 
 	#region Constants
 
-	public enum WeaponType {Revolver, Shotgun, Rifle, Fier};
-
 	public static class Const
 	{
 		public const string GAME_NAME = "Space Hunta";

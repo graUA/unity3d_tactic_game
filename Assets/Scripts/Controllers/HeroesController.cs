@@ -190,7 +190,7 @@ public class HeroesController : MonoBehaviour
 	void HeroMustShoot()
 	{
 		Hero hero = selectedHeroes[0];
-		hero.AttackCharacter(null);
+		hero.AttackCharacter();
 	}
 
 	#region Heroes Array monipulation methods:

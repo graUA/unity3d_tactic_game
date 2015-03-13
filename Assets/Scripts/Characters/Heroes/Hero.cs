@@ -16,15 +16,20 @@ public class Hero : Character
 
 	private SpriteRenderer selectCircle;
 	private float kHeroRotationSpeed = 200f;
-	
-	void Awake()
+
+	protected override void Init()
 	{
-		this.Init();
+		base.Init();
 
 		characterSpeed = 0f;
 		myTransform = transform;                                  // sets myTransform to this GameObject.transform
 		destinationPosition = myTransform.position;
 		selectCircle = GetComponentInChildren<SpriteRenderer> (); // hero select circle sprite
+	}
+
+	void Awake()
+	{
+		Init();
 	}
 
 	void FixedUpdate()
