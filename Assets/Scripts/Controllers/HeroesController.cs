@@ -97,6 +97,10 @@ public class HeroesController : MonoBehaviour
 		if (Input.GetKey(KeyCode.LeftShift) && selectedHeroes.Count > 0)
 		{
 			SetHeroRatation();
+			if (Input.GetMouseButton(0))
+			{
+				HeroMustShoot();
+			}
 		}
 		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.F))
 		{
@@ -181,6 +185,12 @@ public class HeroesController : MonoBehaviour
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Hero hero = selectedHeroes[0];
 		hero.RotateHero(ray);
+	}
+
+	void HeroMustShoot()
+	{
+		Hero hero = selectedHeroes[0];
+		hero.AttackCharacter();
 	}
 
 	#region Heroes Array monipulation methods:
