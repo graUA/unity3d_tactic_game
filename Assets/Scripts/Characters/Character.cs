@@ -69,6 +69,7 @@ public class Character : MonoBehaviour
 		if (curWeaponType != null)
 		{
             curWeapon = weaponFact.getWeapon(curWeaponType, weaponDeploy.transform);
+            curWeapon.transform.parent = weaponDeploy.transform;
 			GUN = curWeapon.GetComponent<Weapon>();
 		}
 	}
