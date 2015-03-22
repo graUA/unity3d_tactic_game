@@ -18,3 +18,6 @@ sysinfo.txt
 
 # Other stuff
 .DS_Store
+
+# Third party files folder
+Assets/Third_party_files
