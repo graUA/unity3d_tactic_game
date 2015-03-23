@@ -59,17 +59,15 @@ public class Hero : Character
 	
 	public void SetDistinationPosition(Ray ray)
 	{
-		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
-		float hitdist = 0.0f;
-		
-		if (playerPlane.Raycast(ray, out hitdist))
-		{
-			navAgent.enabled = true;
-			Vector3 targetPoint = ray.GetPoint(hitdist);
-			destinationPosition = ray.GetPoint(hitdist);
-			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-			myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 20f * Time.smoothDeltaTime);
-		}
+        RaycastHit hitInfo = new RaycastHit();
+        if (Physics.Raycast(ray.origin, ray.direction, out hitInfo))
+        {
+            navAgent.enabled = true;
+            Vector3 targetPoint = hitInfo.point;
+            destinationPosition = hitInfo.point;
+            Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+            myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 20f * Time.smoothDeltaTime);
+        }
 	}
 
 	public void TakeDemage()

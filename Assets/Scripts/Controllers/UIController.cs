@@ -20,14 +20,13 @@ public class UIController : MonoBehaviour {
 
 	public void HighlightDestinationPoint(Ray ray)
 	{
-		Plane playerPlane = new Plane(Vector3.up, pointer.transform.position);
-		float hitdist = 0.0f;
-		
-		if (playerPlane.Raycast(ray, out hitdist))
+        RaycastHit hitInfo = new RaycastHit();
+        if (Physics.Raycast(ray.origin, ray.direction, out hitInfo))
 		{
-			Vector3 targetPoint = ray.GetPoint(hitdist);
+            Vector3 targetPoint = hitInfo.point;
 			pointCircle.enabled = true;
-			pointer.transform.position = targetPoint;
+			pointer.transform.position = targetPoint + new Vector3(0, 0.2f, 0);
+            CancelInvoke("HidePointer");
 			Invoke("HidePointer", 0.5f);
 		}
 	}
