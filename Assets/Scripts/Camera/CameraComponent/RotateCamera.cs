@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class RotateCamera : CameraDecorator
@@ -38,9 +38,9 @@ public class RotateCamera : CameraDecorator
 	/// </summary>
 	private void Rotate()
 	{
-		if (InputManager.Rotate() != 0)
+		if (InputManager.RotateAxis() != 0)
 		{
-			var rotation = InputManager.Rotate() * rotateSpeed * Time.deltaTime;
+			var rotation = InputManager.RotateAxis() * rotateSpeed * Time.deltaTime;
 			transform.Rotate(0, rotation, 0);
 		}
 	}

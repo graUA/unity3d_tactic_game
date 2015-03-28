@@ -62,7 +62,7 @@ public class InputManager {
 	/// <summary>
 	/// Rotate this instance.
 	/// </summary>
-	public static float Rotate()
+	public static float RotateAxis()
 	{
 		// TODO: joystick rotation
 		return Input.GetMouseButton(2) ? HorizontalMouseAxis () : 0;
