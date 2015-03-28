@@ -9,11 +9,6 @@ public class RotateCamera : CameraDecorator
 	private Transform transform;
 
 	/// <summary>
-	/// The mouse X position for rotation.
-	/// </summary>
-	private float mouseXPositionForRotation;
-
-	/// <summary>
 	/// The rotate speed.
 	/// </summary>
 	private float rotateSpeed;
@@ -39,26 +34,14 @@ public class RotateCamera : CameraDecorator
 	}
 
 	/// <summary>
-	/// Lates the update.
-	/// </summary>
-	public override void LateUpdate()
-	{
-		base.LateUpdate();
-		mouseXPositionForRotation = Input.mousePosition.x;
-	}
-
-	/// <summary>
 	/// Rotate this instance.
 	/// </summary>
 	private void Rotate()
 	{
-		if (Input.GetMouseButton(2))
+		if (InputManager.Rotate() != 0)
 		{
-			if (Input.mousePosition.x != mouseXPositionForRotation)
-			{
-				var rotation = (Input.mousePosition.x - mouseXPositionForRotation) * rotateSpeed * Time.deltaTime;
-				transform.Rotate(0, rotation, 0);
-			}
+			var rotation = InputManager.Rotate() * rotateSpeed * Time.deltaTime;
+			transform.Rotate(0, rotation, 0);
 		}
 	}
 }

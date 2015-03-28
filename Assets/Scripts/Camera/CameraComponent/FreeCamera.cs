@@ -56,14 +56,10 @@ public class FreeCamera : CameraDecorator
 	/// </summary>
 	private void UpdateCamera()
 	{
-		if (!Input.GetKey(KeyCode.RightArrow)
-			&& !Input.GetKey(KeyCode.LeftArrow)
-		    && !Input.GetKey(KeyCode.DownArrow)
-		    && !Input.GetKey(KeyCode.UpArrow))
-		{
+		if (InputManager.HorizontalAxis() == 0 && InputManager.VerticalAxis() == 0) {
 			MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
 		}
-		
+
 		MoveCameraByKeys();
 	}
 
@@ -103,19 +99,19 @@ public class FreeCamera : CameraDecorator
 	{
 		var previousPosition = transform.position;
 
-		if(Input.GetKey(KeyCode.RightArrow))
+		if (InputManager.HorizontalAxis() > 0)
 		{
 			transform.Translate(Vector3.right * speed * Time.deltaTime);
 		}
-		if(Input.GetKey(KeyCode.LeftArrow))
+		if (InputManager.HorizontalAxis() < 0)
 		{
 			transform.Translate(Vector3.left * speed * Time.deltaTime);
 		}
-		if(Input.GetKey(KeyCode.DownArrow))
+		if (InputManager.VerticalAxis() < 0)
 		{
 			transform.Translate(Vector3.back * speed * Time.deltaTime);
 		}
-		if(Input.GetKey(KeyCode.UpArrow))
+		if (InputManager.VerticalAxis() > 0)
 		{
 			transform.Translate(Vector3.forward * speed * Time.deltaTime);
 		}
