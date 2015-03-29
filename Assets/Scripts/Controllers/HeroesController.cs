@@ -102,6 +102,11 @@ public class HeroesController : MonoBehaviour
 				HeroMustShoot();
 			}
 		}
+        else
+        {
+            Hero hero = selectedHeroes[0];
+            hero.readyToShoot = false;
+        }
 		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.F))
 		{
 			SetUpCameraMode();
@@ -185,6 +190,7 @@ public class HeroesController : MonoBehaviour
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Hero hero = selectedHeroes[0];
 		hero.RotateHero(ray);
+        hero.readyToShoot = true;
 	}
 
 	void HeroMustShoot()
