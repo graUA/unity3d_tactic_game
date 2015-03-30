@@ -9,6 +9,8 @@ public class Hero : Character
     public Transform RHTargetTransform;
     public Transform lightTransform;
 	public float speed = 7f;                    // Speed at which the character moves
+
+    [HideInInspector]
     public bool readyToShoot;
 
 	private float characterSpeed;
@@ -93,7 +95,7 @@ public class Hero : Character
 		}
 	}
 
-	public void RotateHero(Ray ray)
+    public void OrientateHero(Ray ray)
 	{
 		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
 		float hitdist = 0.0f;

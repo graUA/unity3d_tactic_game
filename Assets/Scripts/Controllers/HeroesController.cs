@@ -96,7 +96,7 @@ public class HeroesController : MonoBehaviour
 		}
 		if (Input.GetKey(KeyCode.LeftShift) && selectedHeroes.Count > 0)
 		{
-			SetHeroRatation();
+			SetHeroOrientation();
 			if (Input.GetMouseButton(0))
 			{
 				HeroMustShoot();
@@ -104,8 +104,11 @@ public class HeroesController : MonoBehaviour
 		}
         else
         {
-            Hero hero = selectedHeroes[0];
-            hero.readyToShoot = false;
+            if (selectedHeroes.Count > 0)
+            {
+                Hero hero = selectedHeroes[0];
+                hero.readyToShoot = false;
+            }
         }
 		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.F))
 		{
@@ -185,11 +188,11 @@ public class HeroesController : MonoBehaviour
 		}
 	}
 
-	void SetHeroRatation()
+    void SetHeroOrientation()
 	{
 		ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		Hero hero = selectedHeroes[0];
-		hero.RotateHero(ray);
+		hero.OrientateHero(ray);
         hero.readyToShoot = true;
 	}
 
