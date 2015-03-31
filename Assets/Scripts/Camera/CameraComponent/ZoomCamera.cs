@@ -47,11 +47,11 @@ public class ZoomCamera : CameraDecorator
 	/// </summary>
 	private void Zoom()
 	{
-		if (transform.position.y > zoomMin && Input.GetAxis("Mouse ScrollWheel") > 0)
+		if (transform.position.y > zoomMin && InputManager.ZoomAxis() > 0)
 		{
 			transform.Translate(0, -zoomSpeed, zoomSpeed);
 		}
-		if (transform.position.y < zoomMax && Input.GetAxis("Mouse ScrollWheel") < 0)
+		if (transform.position.y < zoomMax && InputManager.ZoomAxis() < 0)
 		{
 			transform.Translate(0, zoomSpeed, -zoomSpeed);
 		}

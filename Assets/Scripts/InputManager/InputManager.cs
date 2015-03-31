@@ -4,25 +4,20 @@ using System.Collections;
 public class InputManager {
 
 	/// <summary>
-	/// The vertical axis.
+	/// Input Manager name constants
 	/// </summary>
 	private static string VERTICAL_AXIS = "Vertical";
-
-	/// <summary>
-	/// The horizontal axis.
-	/// </summary>
 	private static string HORIZONTAL_AXIS = "Horizontal";
-
-	/// <summary>
-	/// The vertical mouse (x cordinate)
-	/// </summary>
 	private static string VERTICAL_MOUSE = "Mouse Y";
-
-	/// <summary>
-	/// The horizontal mouse (y cordinate)
-	/// </summary>
 	private static string HORIZONTAL_MOUSE = "Mouse X";
-
+	private static string SCROLLWHEEL_MOUSE = "Mouse ScrollWheel";
+	private static string FIRE1 = "Fire1";
+	private static string FIRE2 = "Fire2";
+	private static string FIRE3 = "Fire3";
+	private static string SHIFT = "Shift";
+	private static string CONTROL = "Control";
+	private static string FUNCTION = "Function";
+	
 	/// <summary>
 	/// Verticals the axis.
 	/// </summary>
@@ -60,11 +55,96 @@ public class InputManager {
 	}
 
 	/// <summary>
-	/// Rotate this instance.
+	/// Scrolls the wheel axis.
 	/// </summary>
+	/// <returns>The wheel axis.</returns>
+	public static float ScrollWheelAxis()
+	{
+		return Input.GetAxis(SCROLLWHEEL_MOUSE);
+	}
+
+	/// <summary>
+	/// Rotates the axis.
+	/// </summary>
+	/// <returns>The axis.</returns>
 	public static float RotateAxis()
 	{
 		// TODO: joystick rotation
-		return Input.GetMouseButton(2) ? HorizontalMouseAxis () : 0;
+		return Fire3() ? HorizontalMouseAxis() : 0;
+	}
+
+	/// <summary>
+	/// Zooms the axis.
+	/// </summary>
+	/// <returns>The axis.</returns>
+	public static float ZoomAxis()
+	{
+		// TODO: joystick zoom
+		return ScrollWheelAxis();
+	}
+
+	/// <summary>
+	/// Fire1.
+	/// </summary>
+	public static bool Fire1()
+	{
+		return Input.GetButton(FIRE1);
+	}
+
+	/// <summary>
+	/// Fire2.
+	/// </summary>
+	public static bool Fire2()
+	{
+		return Input.GetButton(FIRE2);
+	}
+
+	/// <summary>
+	/// Fire3.
+	/// </summary>
+	public static bool Fire3()
+	{
+		return Input.GetButton(FIRE3);
+	}
+
+	/// <summary>
+	/// Shift.
+	/// </summary>
+	public static bool Shift()
+	{
+		return Input.GetButton(SHIFT);
+	}
+
+	/// <summary>
+	/// Control.
+	/// </summary>
+	public static bool Control()
+	{
+		return Input.GetButton(CONTROL);
+	}
+
+	/// <summary>
+	/// Function.
+	/// </summary>
+	public static bool Function()
+	{
+		return Input.GetButton(FUNCTION);
+	}
+
+	/// <summary>
+	/// Functions up.
+	/// </summary>
+	private static bool FunctionUp()
+	{
+		return Input.GetButtonUp(FUNCTION);
+	}
+
+	/// <summary>
+	/// Follow.
+	/// </summary>
+	public static bool Follow()
+	{
+		// TODO: joystick follow mode
+		return Shift() && Control() && FunctionUp();
 	}
 }

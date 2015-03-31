@@ -85,24 +85,24 @@ public class HeroesController : MonoBehaviour
 	/// </summary>
 	void Update () 
 	{
-		if (Input.GetMouseButton(0) && !Input.GetKey(KeyCode.LeftShift) && !isFollowMode)
+		if (InputManager.Fire1() && !InputManager.Shift() && !isFollowMode)
 		{
 			SelectHero();
 			SelectHeroBySelectionFrame();
 		}
-		if (Input.GetMouseButton(1))
+		if (InputManager.Fire2())
 		{
 			GetDistinationPosition();
 		}
-		if (Input.GetKey(KeyCode.LeftShift) && selectedHeroes.Count > 0)
+		if (InputManager.Shift() && selectedHeroes.Count > 0)
 		{
 			SetHeroRatation();
-			if (Input.GetMouseButton(0))
+			if (InputManager.Fire1())
 			{
 				HeroMustShoot();
 			}
 		}
-		if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyUp(KeyCode.F))
+		if (InputManager.Follow())
 		{
 			SetUpCameraMode();
 		}
@@ -150,7 +150,7 @@ public class HeroesController : MonoBehaviour
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		if (Physics.Raycast(ray, out shootHit, range, selectebleMask)) {
-			if (!Input.GetKey(KeyCode.LeftShift))
+			if (!InputManager.Shift())
 			{
 				ClearHeroesList();
 			}
