@@ -6,14 +6,18 @@ using Global;
 public class Hero : Character
 {
 	public string Name = "Scout";
-
+    public Transform RHTargetTransform;
+    public Transform lightTransform;
 	public float speed = 7f;                    // Speed at which the character moves
+
+    [HideInInspector]
+    public bool readyToShoot;
 
 	private float characterSpeed;
 	private Transform myTransform;              // this transform
 	private Vector3 destinationPosition;        // The destination Point
 	private float destinationDistance;          // The distance between myTransform and destinationPosition
-
+    private Vector3 targetPoint;
 	private SpriteRenderer selectCircle;
 	private float kHeroRotationSpeed = 200f;
 
@@ -59,17 +63,15 @@ public class Hero : Character
 	
 	public void SetDistinationPosition(Ray ray)
 	{
-		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
-		float hitdist = 0.0f;
-		
-		if (playerPlane.Raycast(ray, out hitdist))
-		{
-			navAgent.enabled = true;
-			Vector3 targetPoint = ray.GetPoint(hitdist);
-			destinationPosition = ray.GetPoint(hitdist);
-			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
-			myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 20f * Time.smoothDeltaTime);
-		}
+        RaycastHit hitInfo = new RaycastHit();
+        if (Physics.Raycast(ray.origin, ray.direction, out hitInfo))
+        {
+            navAgent.enabled = true;
+            Vector3 targetPoint = hitInfo.point;
+            destinationPosition = hitInfo.point;
+            Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
+            myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, 20f * Time.smoothDeltaTime);
+        }
 	}
 
 	public void TakeDemage()
@@ -93,7 +95,7 @@ public class Hero : Character
 		}
 	}
 
-	public void RotateHero(Ray ray)
+    public void OrientateHero(Ray ray)
 	{
 		Plane playerPlane = new Plane(Vector3.up, myTransform.position);
 		float hitdist = 0.0f;
@@ -104,5 +106,47 @@ public class Hero : Character
 			Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
 			myTransform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, kHeroRotationSpeed * Time.smoothDeltaTime);
 		}
+
+        RaycastHit hitInfo = new RaycastHit();
+        if (Physics.Raycast(ray.origin, ray.direction, out hitInfo))
+        {
+            targetPoint = hitInfo.point;
+            weaponDeploy.transform.LookAt(targetPoint);
+            lightTransform.transform.LookAt(targetPoint);
+        }
 	}
+
+    void OnAnimatorIK()
+    {
+        if (anim)
+        {
+
+            //if the IK is active, set the position and rotation directly to the goal. 
+            if (readyToShoot)
+            {
+                if (anim)
+                {
+                    anim.SetLookAtWeight(1);
+                    anim.SetLookAtPosition(targetPoint);
+                }
+                // Set the right hand target position and rotation, if one has been assigned
+                if (RHTargetTransform != null)
+                {
+                    anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+                    anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+                    anim.SetIKPosition(AvatarIKGoal.RightHand, RHTargetTransform.position);
+                    anim.SetIKRotation(AvatarIKGoal.RightHand, RHTargetTransform.rotation);
+                }
+
+            }
+
+            //if the IK is not active, set the position and rotation of the hand and head back to the original position
+            else
+            {
+                anim.SetIKPositionWeight(AvatarIKGoal.RightHand, 0);
+                anim.SetIKRotationWeight(AvatarIKGoal.RightHand, 0);
+                anim.SetLookAtWeight(0);
+            }
+        }
+    }
 }
