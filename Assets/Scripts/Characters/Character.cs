@@ -11,17 +11,19 @@ public class Character : MonoBehaviour
 
 	protected NavMeshAgent navAgent;
 	protected Animator anim;
-	protected GameObject GM;				// Game Manager Object
+	protected GameManager GM;				// Game Manager Class
 	protected EnemyController EC;         // EnemyController Class
 	protected GameObject curWeapon;
 	protected Weapon GUN;
+    protected WeaponFactory weaponFact;
 
 	protected virtual void Init()
 	{
 		navAgent = GetComponent<NavMeshAgent>();
 		anim = GetComponent<Animator>();
-		GM = GameObject.FindGameObjectWithTag(Tags.gameManager);
-		EC = GM.GetComponent<EnemyController>();
+		GM = GameObject.FindGameObjectWithTag(Tags.gameManager).GetComponent<GameManager>();
+        EC = GM.getEnemyCtr();
+        weaponFact = GM.getWeaponFact();
         //
         if (autoEquip)
         {
@@ -66,8 +68,8 @@ public class Character : MonoBehaviour
 
 		if (curWeaponType != null)
 		{
-			curWeapon = GM.GetComponent<WeaponFactory>().getWeapon(curWeaponType, weaponDeploy.transform);
-			curWeapon.transform.parent = weaponDeploy.transform;
+            curWeapon = weaponFact.getWeapon(curWeaponType, weaponDeploy.transform);
+            curWeapon.transform.parent = weaponDeploy.transform;
 			GUN = curWeapon.GetComponent<Weapon>();
 		}
 	}
