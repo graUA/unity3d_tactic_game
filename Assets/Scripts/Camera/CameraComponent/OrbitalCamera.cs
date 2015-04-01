@@ -14,11 +14,6 @@ public class OrbitalCamera : CameraDecorator
 	private GameObject target;
 
 	/// <summary>
-	/// The mouse X position for rotation.
-	/// </summary>
-	private float mouseXPositionForRotation;
-	
-	/// <summary>
 	/// The rotate speed.
 	/// </summary>
 	private float rotateSpeed;
@@ -42,15 +37,6 @@ public class OrbitalCamera : CameraDecorator
 		base.Update();
 		if (target != null) Rotate();
 	}
-	
-	/// <summary>
-	/// Lates the update.
-	/// </summary>
-	public override void LateUpdate()
-	{
-		base.LateUpdate();
-		mouseXPositionForRotation = Input.mousePosition.x;
-	}
 
 	/// <summary>
 	/// Sets the target.
@@ -66,13 +52,10 @@ public class OrbitalCamera : CameraDecorator
 	/// </summary>
 	private void Rotate()
 	{
-		if (Input.GetMouseButton(2))
+		if (InputManager.RotateAxis() != 0)
 		{
-			if (Input.mousePosition.x != mouseXPositionForRotation)
-			{
-				var rotation = (Input.mousePosition.x - mouseXPositionForRotation) * rotateSpeed * Time.deltaTime;
-				transform.RotateAround(target.transform.position, Vector3.up, rotation);
-			}
+			var rotation = InputManager.RotateAxis() * rotateSpeed * Time.deltaTime;
+			transform.RotateAround(target.transform.position, Vector3.up, rotation);
 		}
 	}
 }

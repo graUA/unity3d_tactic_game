@@ -112,7 +112,10 @@ public class Hero : Character
         {
             targetPoint = hitInfo.point;
             weaponDeploy.transform.LookAt(targetPoint);
-            lightTransform.transform.LookAt(targetPoint);
+
+			// FIXME: It doesn't work without null checking
+			if (lightTransform != null)
+            	lightTransform.transform.LookAt(targetPoint);
         }
 	}
 

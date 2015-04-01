@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class RotateCamera : CameraDecorator
@@ -7,11 +7,6 @@ public class RotateCamera : CameraDecorator
 	/// The transform.
 	/// </summary>
 	private Transform transform;
-
-	/// <summary>
-	/// The mouse X position for rotation.
-	/// </summary>
-	private float mouseXPositionForRotation;
 
 	/// <summary>
 	/// The rotate speed.
@@ -39,26 +34,14 @@ public class RotateCamera : CameraDecorator
 	}
 
 	/// <summary>
-	/// Lates the update.
-	/// </summary>
-	public override void LateUpdate()
-	{
-		base.LateUpdate();
-		mouseXPositionForRotation = Input.mousePosition.x;
-	}
-
-	/// <summary>
 	/// Rotate this instance.
 	/// </summary>
 	private void Rotate()
 	{
-		if (Input.GetMouseButton(2))
+		if (InputManager.RotateAxis() != 0)
 		{
-			if (Input.mousePosition.x != mouseXPositionForRotation)
-			{
-				var rotation = (Input.mousePosition.x - mouseXPositionForRotation) * rotateSpeed * Time.deltaTime;
-				transform.Rotate(0, rotation, 0);
-			}
+			var rotation = InputManager.RotateAxis() * rotateSpeed * Time.deltaTime;
+			transform.Rotate(0, rotation, 0);
 		}
 	}
 }

@@ -1,6 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Selection frame camera.
+/// 
+/// IMPORTANT: Please note that it can be used for mouse ONLY
+/// </summary>
 public class SelectionFrameCamera : CameraDecorator
 {
 	/// <summary>
