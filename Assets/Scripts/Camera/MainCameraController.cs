@@ -13,6 +13,11 @@ public class MainCameraController : MonoBehaviour
     /// </summary>
     public int minX, minZ, maxX, maxZ;
 
+	/// <summary>
+	/// The terrain.
+	/// </summary>
+	public GameObject terrain = null;
+
     /// <summary>
     /// The zoom minimum.
     /// </summary>
@@ -67,7 +72,7 @@ public class MainCameraController : MonoBehaviour
 		CameraComponent camera = new CameraComponent(this.gameObject);
 		ZoomCamera zoomCamera = new ZoomCamera(camera, zoomMin, zoomMax, zoomSpeed);
 		RotateCamera rotateCamera = new RotateCamera(zoomCamera, rotateSpeed);
-		FreeCamera freeCamera = new FreeCamera(rotateCamera, minX, minZ, maxX, maxZ, movementSpeed);
+		FreeCamera freeCamera = new FreeCamera(rotateCamera, terrain, movementSpeed);
 		rtsCamera = new SelectionFrameCamera(freeCamera, selection_frame);
 
 		/// Follow camera init

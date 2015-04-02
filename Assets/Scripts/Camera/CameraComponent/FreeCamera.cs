@@ -43,6 +43,24 @@ public class FreeCamera : CameraDecorator
 	}
 
 	/// <summary>
+	/// Initializes a new instance of the <see cref="FreeCamera"/> class.
+	/// </summary>
+	/// <param name="camera">Camera.</param>
+	/// <param name="terrain">Terrain.</param>
+	/// <param name="movementSpeed">Movement speed.</param>
+	public FreeCamera(CameraBase camera, GameObject terrain, float movementSpeed) : base(camera)
+	{
+		Bounds bounds = terrain.GetComponent<Renderer>().bounds;
+
+		this.transform = camera.getCameraGameObject().transform;
+		this.minX = (int)bounds.min.x;
+		this.maxX = (int)bounds.max.x;
+		this.minZ = (int)bounds.min.z;
+		this.maxZ = (int)bounds.max.z;
+		this.speed = movementSpeed;
+	}
+
+	/// <summary>
 	/// Update this instance.
 	/// </summary>
 	public override void Update()
