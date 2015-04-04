@@ -74,11 +74,7 @@ public class FreeCamera : CameraDecorator
 	/// </summary>
 	private void UpdateCamera()
 	{
-		if (InputManager.HorizontalAxis() == 0 && InputManager.VerticalAxis() == 0) {
-			MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
-		}
-
-		MoveCameraByKeys();
+		MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
 	}
 
 	/// <summary>
@@ -90,46 +86,19 @@ public class FreeCamera : CameraDecorator
 	{
 		var previousPosition = transform.position;
 		
-		if (mouseX < ACTIVE_SCREEN_BORDER_WIDTH)
+		if (mouseX < ACTIVE_SCREEN_BORDER_WIDTH || InputManager.HorizontalAxis() < 0)
 		{
 			transform.Translate(Vector3.right * -speed * Time.deltaTime);
 		}
-		if (mouseX >= Screen.width - ACTIVE_SCREEN_BORDER_WIDTH)
+		if (mouseX >= Screen.width - ACTIVE_SCREEN_BORDER_WIDTH || InputManager.HorizontalAxis() > 0)
 		{
 			transform.Translate(Vector3.right * speed * Time.deltaTime);
 		}
-		if (mouseY < ACTIVE_SCREEN_BORDER_WIDTH)
+		if (mouseY < ACTIVE_SCREEN_BORDER_WIDTH || InputManager.VerticalAxis() < 0)
 		{
 			transform.Translate(Vector3.forward * -speed * Time.deltaTime);
 		}
-		if (mouseY >= Screen.height - ACTIVE_SCREEN_BORDER_WIDTH)
-		{
-			transform.Translate(Vector3.forward * speed * Time.deltaTime);
-		}
-		
-		LimitCamera(previousPosition, transform.position);
-	}
-
-	/// <summary>
-	/// Moves the camera by keys.
-	/// </summary>
-	private void MoveCameraByKeys()
-	{
-		var previousPosition = transform.position;
-
-		if (InputManager.HorizontalAxis() > 0)
-		{
-			transform.Translate(Vector3.right * speed * Time.deltaTime);
-		}
-		if (InputManager.HorizontalAxis() < 0)
-		{
-			transform.Translate(Vector3.left * speed * Time.deltaTime);
-		}
-		if (InputManager.VerticalAxis() < 0)
-		{
-			transform.Translate(Vector3.back * speed * Time.deltaTime);
-		}
-		if (InputManager.VerticalAxis() > 0)
+		if (mouseY >= Screen.height - ACTIVE_SCREEN_BORDER_WIDTH || InputManager.VerticalAxis() > 0)
 		{
 			transform.Translate(Vector3.forward * speed * Time.deltaTime);
 		}
@@ -144,11 +113,13 @@ public class FreeCamera : CameraDecorator
 	/// <param name="currentPosition">Current position.</param>
 	private void LimitCamera(Vector3 previousPosition, Vector3 currentPosition)
 	{
-		if (currentPosition.z < minZ || currentPosition.z > maxZ)
+		Vector3 tPos = transform.position;
+
+		if (currentPosition.z < minZ - tPos.y || currentPosition.z > maxZ + tPos.y)
 		{
 			transform.position = previousPosition;
 		}
-		if (currentPosition.x < minX || currentPosition.x > maxX)
+		if (currentPosition.x < minX - tPos.y || currentPosition.x > maxX + tPos.y)
 		{
 			transform.position = previousPosition;
 		}
