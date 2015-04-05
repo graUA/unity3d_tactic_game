@@ -74,15 +74,15 @@ public class FreeCamera : CameraDecorator
 	/// </summary>
 	private void UpdateCamera()
 	{
-		MoveCameraByMouse(Input.mousePosition.x, Input.mousePosition.y);
+		MoveCamera(Input.mousePosition.x, Input.mousePosition.y);
 	}
 
 	/// <summary>
-	/// Moves the camera by mouse.
+	/// Moves the camera.
 	/// </summary>
 	/// <param name="mouseX">Mouse x.</param>
 	/// <param name="mouseY">Mouse y.</param>
-	private void MoveCameraByMouse(float mouseX, float mouseY)
+	private void MoveCamera(float mouseX, float mouseY)
 	{
 		var previousPosition = transform.position;
 		
