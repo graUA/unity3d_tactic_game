@@ -53,14 +53,50 @@ public class ZoomCamera : CameraDecorator
 	/// </summary>
 	private void Zoom()
 	{
-		if (transform.position.y > zoomMin && InputManager.ZoomAxis() > 0)
+		if (transform.position.y > GetRelativeZoomMin() && InputManager.ZoomAxis() > 0)
 		{
 			transform.Translate(0, -zoomSpeed, zoomSpeed);
 		}
-		if (transform.position.y < zoomMax && InputManager.ZoomAxis() < 0)
+		if (transform.position.y < GetRelativeZoomMax() && InputManager.ZoomAxis() < 0)
 		{
 			transform.Translate(0, zoomSpeed, -zoomSpeed);
 		}
+	}
+
+	/// <summary>
+	/// Gets the relative zoom minimum.
+	/// </summary>
+	/// <returns>The relative zoom minimum.</returns>
+	private float GetRelativeZoomMin()
+	{
+		return GetDistance() - zoomMin;
+	}
+	
+	/// <summary>
+	/// Gets the relative zoom max.
+	/// </summary>
+	/// <returns>The relative zoom max.</returns>
+	private float GetRelativeZoomMax()
+	{
+		return GetDistance() + zoomMax;
+	}
+
+	/// <summary>
+	/// Gets the distance.
+	/// </summary>
+	/// <returns>The distance.</returns>
+	private float GetDistance()
+	{
+		RaycastHit hit;
+		float distance = 0;
+		
+		if (Physics.Raycast(transform.position, -transform.up, out hit, Mathf.Infinity))
+		{
+			distance = Vector3.Distance(transform.position, hit.point);
+			Debug.DrawLine(transform.position, hit.point, Color.green, 2, false);
+		}
+		
+		return distance;
 	}
 
 	/// <summary>
@@ -68,17 +104,7 @@ public class ZoomCamera : CameraDecorator
 	/// </summary>
 	private void AdoptHeight()
 	{
-		RaycastHit hit;
-		float distance = 0;
-		float height = 0;
-		
-		if (Physics.Raycast(transform.position, -transform.up, out hit, Mathf.Infinity))
-		{
-			distance = Vector3.Distance(transform.position, hit.point);
-			height = transform.position.y - distance;
-			
-			Debug.DrawLine(transform.position, hit.point, Color.green, 2, false);
-		}
+		float distance = GetDistance();
 
 		if (distance > 0 && distance < zoomMin)
 		{
@@ -89,6 +115,13 @@ public class ZoomCamera : CameraDecorator
 				0.25f);
 		}
 
-		Debug.Log(distance);
+		if (distance > 0 && distance > zoomMax)
+		{
+			transform.position = Vector3.SmoothDamp(
+				transform.position,
+				transform.position - new Vector3(0, distance - zoomMax, 0),
+				ref velocity,
+				0.25f);
+		}
 	}
 }
